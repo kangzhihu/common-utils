@@ -1,23 +1,25 @@
-package com.coldfire.util;
+package com.meta.util;
 
-import com.coldfire.inter.CommonLogger;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- * Declaration:You can freely read, use or modify this file, and if you have a better idea, please contact the author to help upgrade this file.
  * Created by zhihu.kang
  * Time: 2016/12/13 22:18
  * Email:kangzhihu@163.com
  * Descriptions:网络IP工具类
  */
 public class NetworkUtils {
-    private static final CommonLogger dbLogger = LoggerUtils.getLogger(NetworkUtils.class);
+    private final static transient Logger logger = LoggerFactory.getLogger(NetworkUtils.class);
 
     private NetworkUtils(){}
 

@@ -1,4 +1,4 @@
-package com.coldfire.support;
+package com.meta.support;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Declaration:You can freely read, use or modify this file, and if you have a better idea, please contact the author to help upgrade this file.
  * Created by zhihu.kang
  * Time: 2016/12/26 22:57
  * Email:kangzhihu@163.com

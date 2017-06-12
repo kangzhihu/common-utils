@@ -1,4 +1,6 @@
-package com.coldfire.util;
+package com.meta.abs;
+
+import com.meta.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Declaration:You can freely read, use or modify this file, and if you have a better idea, please contact the author to help upgrade this file.
  * Created by zhihu.kang
  * Time: 2016/12/12 22:52
  * Email:kangzhihu@163.com

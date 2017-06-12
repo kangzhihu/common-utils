@@ -1,6 +1,6 @@
-package com.coldfire.util;
+package com.meta.util;
 
-import com.coldfire.ClassHelper;
+import com.meta.ClassHelper;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtMethod;
@@ -17,7 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Declaration:You can freely read, use or modify this file, and if you have a better idea, please contact the author to help upgrade this file.
  * Created by zhihu.kang
  * Time: 2016/12/27 22:35
  * Email:kangzhihu@163.com

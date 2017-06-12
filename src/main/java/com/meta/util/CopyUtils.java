@@ -1,12 +1,13 @@
-package com.coldfire.util;
+package com.meta.util;
 
-import com.coldfire.inter.CommonLogger;
-import com.coldfire.support.Wrapper;
+import com.meta.support.Wrapper;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.FastHashMap;
 import org.apache.commons.collections.list.UnmodifiableList;
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Declaration:You can freely read, use or modify this file, and if you have a better idea, please contact the author to help upgrade this file.
  * Created by zhihu.kang
  * Time: 2016/12/26 22:57
  * Email:kangzhihu@163.com
@@ -23,7 +23,7 @@ import java.util.Map;
  * 一整套实现还没看懂，在工作中看见使用十分方便就先记录下来。。
  */
 public class CopyUtils {
-    private static final transient CommonLogger dbLogger = LoggerUtils.getLogger(CopyUtils.class);
+    private final static transient Logger logger = LoggerFactory.getLogger(CopyUtils.class);
     /**
      * FastHashMap -- java.util.HashMap的一个实现，其适用的环境是有大量的读（如缓存数据），而很少有map结构的改动的环境，并且在这种环境下为线程安全。
      * 当以fast模式运行时,只读方法不是线程安全的,而写操作以下面的步骤进行操作
@@ -59,7 +59,7 @@ public class CopyUtils {
                 voItemList.add(itemVo);
             }
         }catch(Exception e){
-            dbLogger.warn(e, 10);
+            logger.warn(e.getMessage());
         }
         return voItemList;
     }
@@ -81,7 +81,7 @@ public class CopyUtils {
             copyInternal(itemVo, src, srcWrapper, destWrapper, props);
             return itemVo;
         } catch (Exception e) {
-            dbLogger.warn(e, 10);
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -158,7 +158,7 @@ public class CopyUtils {
             try{
                 destWrapper.setPropertyValue(dst, name, srcWrapper.getPropertyValue(src, name));
             }catch(Throwable e){
-                dbLogger.warn(name, e, 10);
+                logger.warn(e.getMessage());
             }
         }
     }
@@ -181,7 +181,7 @@ public class CopyUtils {
             try{
                 destWrapper.setPropertyValue(dst, entry.getKey(), entry.getValue());
             }catch(Throwable e){
-                dbLogger.warn(entry.getKey(), e, 10);
+                logger.debug(e.getMessage());
             }
         }
     }

@@ -1,7 +1,7 @@
-package com.coldfire.support.common;
+package com.meta.support.clazzz;
 
-import com.coldfire.ClassHelper;
-import com.coldfire.util.ReflectUtils;
+import com.meta.ClassHelper;
+import com.meta.util.ReflectUtils;
 import javassist.*;
 
 import java.lang.reflect.Constructor;
@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Declaration:You can freely read, use or modify this file, and if you have a better idea, please contact the author to help upgrade this file.
  * Created by zhihu.kang
  * Time: 2016/12/27 22:52
  * Email:kangzhihu@163.com

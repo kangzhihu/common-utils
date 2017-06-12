@@ -1,10 +1,10 @@
-package com.coldfire.support;
+package com.meta.support;
 
-import com.coldfire.ClassHelper;
-import com.coldfire.Exception.NoSuchPropertyException;
-import com.coldfire.support.common.ClassGenerator;
-import com.coldfire.support.common.ClassUtils;
-import com.coldfire.util.ReflectUtils;
+import com.meta.ClassHelper;
+import com.meta.exception.NoSuchPropertyException;
+import com.meta.support.clazzz.ClassGenerator;
+import com.meta.support.clazzz.ClassUtils;
+import com.meta.util.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 
 /**
- * Declaration:You can freely read, use or modify this file, and if you have a better idea, please contact the author to help upgrade this file.
  * Created by zhihu.kang
  * Time: 2016/12/27 22:30
  * Email:kangzhihu@163.com

@@ -1,21 +1,21 @@
-import com.coldfire.inter.CommonLogger;
-import com.coldfire.util.CopyUtils;
-import com.coldfire.util.DateUtils;
-import com.coldfire.util.JsonUtils;
-import com.coldfire.util.LoggerUtils;
+import com.meta.util.CopyUtils;
+import com.meta.util.DateUtils;
+import com.meta.util.JsonUtils;
 import model.Person;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zhihu.coldfire on 2016/12/11.
+ * Created by zhihu on 2016/12/11.
  * Email:kangzhihu@163.com
  * Descriptions:
  */
 public class TestJsonUtils {
-    private static final CommonLogger dbLogger = LoggerUtils.getLogger(TestJsonUtils.class);
+    private static final transient Logger dbLogger = LoggerFactory.getLogger(TestJsonUtils.class);
     @Test
     public void testMethod(){
         Person person = Person.getDefaultPerson();

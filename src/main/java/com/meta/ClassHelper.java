@@ -1,10 +1,9 @@
-package com.coldfire;
+package com.meta;
 
 import java.lang.reflect.Array;
 import java.util.*;
 
 /**
- * Declaration:You can freely read, use or modify this file, and if you have a better idea, please contact the author to help upgrade this file.
  * Created by zhihu.kang
  * Time: 2016/12/27 22:50
  * Email:kangzhihu@163.com
