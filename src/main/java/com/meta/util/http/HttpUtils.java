@@ -1,4 +1,4 @@
-package com.meta.util;
+package com.meta.util.http;
 
 import com.meta.dto.RequestParmDTO;
 import org.apache.commons.httpclient.HttpClient;

@@ -1,5 +1,4 @@
-import com.meta.util.CopyUtils;
-import com.meta.util.DateUtils;
+import com.meta.util.BeanUtils;
 import com.meta.util.JsonUtils;
 import model.Person;
 import org.junit.Test;
@@ -23,12 +22,9 @@ public class TestJsonUtils {
         list.add(Person.getDefaultPerson());
         list.add(Person.getDefaultPerson());
         list.add(Person.getDefaultPerson());
-        List<Person> list1 = CopyUtils.copyBeanListProperties(Person.class,list);
+        BeanUtils.setProperty(list,"age",20);
 
-        Person person1 =CopyUtils.copyProperties(Person.class,person);
-
-
-        dbLogger.warn(JsonUtils.writeObjectToJson(DateUtils.getCurTruncTimestamp()));
+        dbLogger.warn(JsonUtils.writeObjectToJson(list));
 
     }
 }

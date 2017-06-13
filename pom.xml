@@ -60,13 +60,13 @@
       <version>2.7.4</version>
     </dependency>
 
-<!--
+    <!-- spring -for poolRest -->
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring</artifactId>
-      <version>2.5.6.SEC03</version>
+      <artifactId>spring-webmvc</artifactId>
+      <version>4.3.5.RELEASE</version>
     </dependency>
--->
+
     <!-- apache commons -->
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
@@ -101,6 +101,25 @@
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>1.8.3</version>
+    </dependency>
+
+    <!-- guava -->
+  <!--  <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>21.0</version>
+    </dependency>-->
+
+    <!-- 二维码 -->
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>javase</artifactId>
+      <version>2.0</version>
     </dependency>
 
     <!-- xml dependency -->
