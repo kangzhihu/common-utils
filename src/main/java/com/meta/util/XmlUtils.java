@@ -18,8 +18,8 @@ import java.util.*;
  * XML工具类
  * Created by Administrator on 2017/6/12.
  */
-public class XmlUtil {
-    private final static transient Logger logger = LoggerFactory.getLogger(XmlUtil.class);
+public class XmlUtils {
+    private final static transient Logger logger = LoggerFactory.getLogger(XmlUtils.class);
     public static String formatXml(String str, String encoding) {
         try {
             StringWriter writer = new StringWriter();
@@ -50,6 +50,12 @@ public class XmlUtil {
         }
 
     }
+
+    /**
+     * 读取XML文件
+     * @param xml
+     * @return
+     */
     public static Document getDocument(String xml){
         SAXReader reader = new SAXReader();
         Document document = null;
@@ -57,7 +63,7 @@ public class XmlUtil {
             document = reader.read(new CharArrayReader(xml.toCharArray()));
         } catch (DocumentException e) {
             logger.error(e.getMessage());;
-        }// 读取XML文件
+        }
         return document;
     }
 

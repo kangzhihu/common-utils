@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Description: Http 工具类
+ * Description: Http 工具类，在spring环境下推荐使用PoolResultClientUtils
  * Created by zhihu.kang.
  * Time: 2017/6/13 0:18
  * Email:kangzhihu@163.com
@@ -39,7 +39,6 @@ public class HttpUtils {
      * @param req
      *            请求参数：包含header、body的参数
      */
-    /**
     public static String sendGet(String url, RequestParmDTO req) throws Exception {
         String result = "";
         HttpClient client = new HttpClient();
