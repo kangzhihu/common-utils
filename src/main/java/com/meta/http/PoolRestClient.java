@@ -1,4 +1,4 @@
-package com.meta.util.http;
+package com.meta.http;
 
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -21,10 +21,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Description: 池化RestClient，不直接提供功能，只提供给PoolRestClientUtils
- * Created by zhihu.kang
- * Time: 2017/6/13 22:36
- * Email:kangzhihu@163.com
+ * Description: <br/>
+ * &nbsp;&nbsp;池化RestClient，不直接提供功能，只提供给PoolRestClientUtils<br/>
+ * Created by zhihu.kang<br/>
+ * Time: 2017/6/13 22:36<br/>
+ * Email:kangzhihu@163.com<br/>
  */
 
 public class PoolRestClient extends GeneralPoolRestClient{

@@ -1,6 +1,5 @@
-package com.meta.util;
+package com.meta.bean;
 
-import com.meta.support.Wrapper;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.FastHashMap;
@@ -16,16 +15,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by zhihu.kang
- * Time: 2016/12/26 22:57
- * Email:kangzhihu@163.com
- * Descriptions:对象复制工具类
+ * Created by zhihu.kang<br/>
+ * Time: 2016/12/26 22:57<br/>
+ * Email:kangzhihu@163.com<br/>
+ * Descriptions:
+ * &nbsp;&nbsp;对象复制工具类<br/>
  * 一整套实现还没看懂，在工作中看见使用十分方便就先记录下来。。
  */
 public class CopyUtils {
     private final static transient Logger logger = LoggerFactory.getLogger(CopyUtils.class);
     /**
-     * FastHashMap -- java.util.HashMap的一个实现，其适用的环境是有大量的读（如缓存数据），而很少有map结构的改动的环境，并且在这种环境下为线程安全。
+     * FastHashMap -- java.common.HashMap的一个实现，其适用的环境是有大量的读（如缓存数据），而很少有map结构的改动的环境，并且在这种环境下为线程安全。
      * 当以fast模式运行时,只读方法不是线程安全的,而写操作以下面的步骤进行操作
          1 克隆当前的数据集合
          2 在克隆对象上进行修改

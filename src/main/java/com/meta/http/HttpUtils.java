@@ -1,4 +1,4 @@
-package com.meta.util.http;
+package com.meta.http;
 
 import com.meta.dto.RequestParmDTO;
 import org.apache.commons.httpclient.HttpClient;
@@ -20,10 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Description: Http 工具类，在spring环境下推荐使用PoolResultClientUtils
- * Created by zhihu.kang.
- * Time: 2017/6/13 0:18
- * Email:kangzhihu@163.com
+ * Description: <br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;Http 工具类，在spring环境下推荐使用{@link PoolRestClientUtils}<br/><br/>
+ * Created by zhihu.kang<br/>
+ * Time: 2017/6/13 0:18<br/>
+ * Email:kangzhihu@163.com<br/>
  */
 
 public class HttpUtils {

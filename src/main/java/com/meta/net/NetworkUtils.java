@@ -1,4 +1,4 @@
-package com.meta.util;
+package com.meta.net;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -13,10 +13,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by zhihu.kang
- * Time: 2016/12/13 22:18
- * Email:kangzhihu@163.com
- * Descriptions:网络IP工具类
+ * Created by zhihu.kang<br/>
+ * Time: 2016/12/13 22:18<br/>
+ * Email:kangzhihu@163.com<br/>
+ * Descriptions:<br/>
+ &nbsp;nbsp;网络IP工具类<br/>
  */
 public class NetworkUtils {
     private final static transient Logger logger = LoggerFactory.getLogger(NetworkUtils.class);

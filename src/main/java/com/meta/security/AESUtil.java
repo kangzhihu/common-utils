@@ -1,4 +1,4 @@
-package com.meta.util.security;
+package com.meta.security;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -8,10 +8,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 /**
- * Description: AES高级加密标准
- * Created by zhihu.kang
- * Time: 2017/6/13 0:25
- * Email:kangzhihu@163.com
+ * Description: <br/>
+ * AES高级加密标准<br/>
+ * Created by zhihu.kang<br/>
+ * Time: 2017/6/13 0:25<br/>
+ * Email:kangzhihu@163.com<br/>
  */
 
 public class AESUtil {

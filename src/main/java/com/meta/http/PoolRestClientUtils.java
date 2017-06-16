@@ -1,4 +1,4 @@
-package com.meta.util.http;
+package com.meta.http;
 
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
@@ -14,10 +14,11 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * Description: restTemplate 请求连接池工具类，依赖于spring-webmvc包
- * Created by zhihu.kang
- * Time: 2017/6/13 22:17
- * Email:kangzhihu@163.com
+ * Description:<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;restTemplate 请求连接池工具类，依赖于spring-webmvc包<br/><br/>
+ * Created by zhihu.kang<br/>
+ * Time: 2017/6/13 22:17<br/>
+ * Email:kangzhihu@163.com<br/>
  */
 
 public class PoolRestClientUtils {

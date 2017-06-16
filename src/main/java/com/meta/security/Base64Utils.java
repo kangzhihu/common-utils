@@ -1,12 +1,13 @@
-package com.meta.util.security;
+package com.meta.security;
 
 import java.io.IOException;
 
 /**
- * Description: Base64 加密、解密工具
- * Created by zhihu.kang
- * Time: 2017/6/13 0:23
- * Email:kangzhihu@163.com
+ * Description: <br/>
+ * &nbsp;&nbsp;Base64 加密、解密工具<br/>
+ * Created by zhihu.kang<br/>
+ * Time: 2017/6/13 0:23<br/>
+ * Email:kangzhihu@163.com<br/>
  */
 
 public class Base64Utils {

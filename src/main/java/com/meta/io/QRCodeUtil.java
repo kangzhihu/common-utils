@@ -1,4 +1,4 @@
-package com.meta.util.io;
+package com.meta.io;
 
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
@@ -14,6 +14,12 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Hashtable;
 
+/**
+ * Description: 一维码、二维码工具类<br/>
+ * Created by zhihu.kang<br/>
+ * Time: 2017/6/16 23:48<br/>
+ * Email:kangzhihu@163.com<br/>
+ */
 public final class QRCodeUtil {
 
     private static final String CHARSET = "utf-8";
@@ -35,13 +41,21 @@ public final class QRCodeUtil {
         QRCodeUtil.encode(content, null, destPath, false);
     }
 
+    /**
+     * 生成二维码
+     * @param content 内容
+     * @param destPath 存储地址
+     * @param width 宽度
+     * @param height 高度
+     * @param offset 偏移量
+     * @throws Exception
+     */
     public static void encode(String content, String destPath, int width, int height, int offset) throws Exception {
         QRCodeUtil.encode(content, null, destPath, false);
     }
 
     /**
-     * 生成二维码(内嵌LOGO)
-     * 
+     * 生成二维码(内嵌LOGO图片)
      * @param content  内容
      * @param imgPath LOGO地址
      * @param destPath 存储地址
@@ -53,7 +67,6 @@ public final class QRCodeUtil {
 
     /**
      * 生成二维码
-     * 
      * @param content 内容
      * @param destPath 存储地址
      * @param needCompress 是否压缩LOGO
@@ -65,7 +78,6 @@ public final class QRCodeUtil {
 
     /**
      * 生成二维码
-     * 
      * @param content 内容
      * @param output 输出流
      * @throws Exception
@@ -146,7 +158,7 @@ public final class QRCodeUtil {
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 
-    /**
+     /**
      * 生成条形码<br>
      * <b>注意</b>条形码的宽度不能等于图片的宽度，否则解析不出来,如果解析不出来，请加大offset的值
      * @param contents 内容
@@ -154,7 +166,7 @@ public final class QRCodeUtil {
      * @param width 宽度
      * @param height 高度
      * @param offset 偏移量
-     */
+    */
     public static void encodeBarCode128(String contents, String dest, int width, int height, int offset)
             throws WriterException, FileNotFoundException, IOException {
         Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
@@ -162,7 +174,9 @@ public final class QRCodeUtil {
         hints.put(EncodeHintType.CHARACTER_SET, CHARSET);
         hints.put(EncodeHintType.MARGIN, 1);
         BitMatrix matrix = new MultiFormatWriter().encode(contents, BarcodeFormat.CODE_128, width - offset, height, hints);
-        MatrixToImageWriter.writeToStream(matrix, FORMAT_NAME, new FileOutputStream(new File(dest)));
+        try(OutputStream stream = new FileOutputStream(new File(dest))){
+            MatrixToImageWriter.writeToStream(matrix, FORMAT_NAME, stream);
+        }
     }
 
     /**

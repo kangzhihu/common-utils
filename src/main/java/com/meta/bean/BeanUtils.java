@@ -1,4 +1,4 @@
-package com.meta.util;
+package com.meta.bean;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -8,10 +8,10 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 /**
- * Description:
- * Created by zhihu.kang on 2017/6/13.
- * Time: 22:20
- * Email:kangzhihu@163.com
+ * Description:<br/>
+ * Created by zhihu.kang <br/>
+ * Time: 22:20<br/>
+ * Email:kangzhihu@163.com<br/>
  */
 public class BeanUtils {
     private static transient Logger logger = LoggerFactory.getLogger(BeanUtils.class);

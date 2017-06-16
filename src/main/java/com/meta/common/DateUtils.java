@@ -1,4 +1,4 @@
-package com.meta.util;
+package com.meta.common;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -9,10 +9,10 @@ import java.util.*;
 import static java.lang.System.currentTimeMillis;
 
 /**
- * Created by zhihu.kang
- * Time: 2016/12/28 22:05
- * Email:kangzhihu@163.com
- * Descriptions:
+ * Created by zhihu.kang<br/>
+ * Time: 2016/12/28 22:05<br/>
+ * Email:kangzhihu@163.com<br/>
+ * Descriptions:<br/>
  */
 public class DateUtils {
 
@@ -769,7 +769,7 @@ public class DateUtils {
     /**
      * @param day1
      * @param day2
-     * @return 日期相差整数round(abs（day1-day2))
+     * @return 日期相差整数round(abst（day1-day2))
      */
     public static final <T extends Date> int getDiffDay(T day1, T day2){
         if(day1==null || day2==null) return 0;

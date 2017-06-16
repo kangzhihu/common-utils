@@ -1,4 +1,4 @@
-package com.meta.util.http;
+package com.meta.http;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.web.client.RestTemplate;

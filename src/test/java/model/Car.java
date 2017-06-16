@@ -1,10 +1,10 @@
 package model;
 
 /**
- * Created by zhihu.kang
- * Time: 2016/12/15 23:46
- * Email:kangzhihu@163.com
- * Descriptions:
+ * Created by zhihu.kang<br/>
+ * Time: 2016/12/15 23:46<br/>
+ * Email:kangzhihu@163.com<br/>
+ * Descriptions:<br/>
  */
 public class Car {
     private String type;

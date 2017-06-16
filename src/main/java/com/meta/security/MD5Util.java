@@ -1,12 +1,13 @@
-package com.meta.util.security;
+package com.meta.security;
 
 import java.security.MessageDigest;
 
 /**
- * Description: MD5 算法
- * Created by zhihu.kang
- * Time: 2017/6/13 0:27
- * Email:kangzhihu@163.com
+ * Description:<br/>
+ * MD5 算法<br/>
+ * Created by zhihu.kang<br/>
+ * Time: 2017/6/13 0:27<br/>
+ * Email:kangzhihu@163.com<br/>
  */
 
 public class MD5Util {

@@ -1,6 +1,5 @@
-package com.meta.util;
+package com.meta.bean.clazzz;
 
-import com.meta.ClassHelper;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtMethod;
@@ -17,10 +16,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by zhihu.kang
- * Time: 2016/12/27 22:35
- * Email:kangzhihu@163.com
- * Descriptions:
+ * Created by zhihu.kang<br/>
+ * Time: 2016/12/27 22:35<br/>
+ * Email:kangzhihu@163.com<br/>
+ * Descriptions:<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;通过反射的方式来获取类信息
  */
 public final class ReflectUtils {
 
@@ -510,7 +510,7 @@ public final class ReflectUtils {
 
     /**
      * name to desc.
-     * java.util.Map[][] => "[[Ljava/util/Map;"
+     * java.common.Map[][] => "[[Ljava/common/Map;"
      *
      * @param name name.
      * @return desc.
@@ -617,19 +617,19 @@ public final class ReflectUtils {
     /**
      * name to class.
      * "boolean" => boolean.class
-     * "java.util.Map[][]" => java.util.Map[][].class
+     * "java.common.Map[][]" => java.common.Map[][].class
      *
      * @param name name.
      * @return Class instance.
      */
     public static Class<?> name2class(String name) throws ClassNotFoundException {
-        return name2class(ClassHelper.getClassLoader(), name);
+        return name2class(ClassUtils.getClassLoader(), name);
     }
 
     /**
      * name to class.
      * "boolean" => boolean.class
-     * "java.util.Map[][]" => java.util.Map[][].class
+     * "java.common.Map[][]" => java.common.Map[][].class
      *
      * @param cl ClassLoader instance.
      * @param name name.
@@ -689,7 +689,7 @@ public final class ReflectUtils {
         }
 
         if (cl == null)
-            cl = ClassHelper.getClassLoader();
+            cl = ClassUtils.getClassLoader();
         Class<?> clazz = NAME_CLASS_CACHE.get(name);
         if (clazz == null) {
             clazz = Class.forName(name, true, cl);
@@ -701,20 +701,20 @@ public final class ReflectUtils {
     /**
      * desc to class.
      * "[Z" => boolean[].class
-     * "[[Ljava/util/Map;" => java.util.Map[][].class
+     * "[[Ljava/common/Map;" => java.common.Map[][].class
      *
      * @param desc desc.
      * @return Class instance.
      * @throws ClassNotFoundException
      */
     public static Class<?> desc2class(String desc) throws ClassNotFoundException {
-        return desc2class(ClassHelper.getClassLoader(), desc);
+        return desc2class(ClassUtils.getClassLoader(), desc);
     }
 
     /**
      * desc to class.
      * "[Z" => boolean[].class
-     * "[[Ljava/util/Map;" => java.util.Map[][].class
+     * "[[Ljava/common/Map;" => java.common.Map[][].class
      *
      * @param cl ClassLoader instance.
      * @param desc desc.
@@ -752,7 +752,7 @@ public final class ReflectUtils {
         }
 
         if (cl == null)
-            cl = ClassHelper.getClassLoader();
+            cl = ClassUtils.getClassLoader();
         Class<?> clazz = DESC_CLASS_CACHE.get(desc);
         if (clazz == null) {
             clazz = Class.forName(desc, true, cl);
@@ -769,7 +769,7 @@ public final class ReflectUtils {
      * @throws ClassNotFoundException
      */
     public static Class<?>[] desc2classArray(String desc) throws ClassNotFoundException {
-        Class<?>[] ret = desc2classArray(ClassHelper.getClassLoader(), desc);
+        Class<?>[] ret = desc2classArray(ClassUtils.getClassLoader(), desc);
         return ret;
     }
 

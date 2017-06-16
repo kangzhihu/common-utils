@@ -1,6 +1,6 @@
-package com.meta.abs;
+package com.meta.net.abst;
 
-import com.meta.util.NetworkUtils;
+import com.meta.net.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,10 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by zhihu.kang
- * Time: 2016/12/12 22:52
- * Email:kangzhihu@163.com
- * Descriptions：网络配置类，可用于继承实现自定义内部网络信息
+ * Created by zhihu.kang<br/>
+ * Time: 2016/12/12 22:52<br/>
+ * Email:kangzhihu@163.com<br/>
+ * Descriptions：<br/>
+ * &nbsp;&nbsp;网络配置类，可用于继承实现自定义内部网络信息
  */
 public abstract class BaseIpConfig {
     private static final List<String> searchList;

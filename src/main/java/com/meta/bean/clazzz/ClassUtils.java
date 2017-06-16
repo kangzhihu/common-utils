@@ -1,15 +1,15 @@
-package com.meta;
+package com.meta.bean.clazzz;
 
 import java.lang.reflect.Array;
 import java.util.*;
 
 /**
- * Created by zhihu.kang
- * Time: 2016/12/27 22:50
- * Email:kangzhihu@163.com
- * Descriptions:
+ * Created by zhihu.kang<br/>
+ * Time: 2016/12/27 22:50<br/>
+ * Email:kangzhihu@163.com<br/>
+ * Descriptions:<br/>
  */
-public class ClassHelper {
+public class ClassUtils {
 
 
     public static Class<?> forNameWithThreadContextClassLoader(String name) throws ClassNotFoundException {
@@ -59,7 +59,7 @@ public class ClassHelper {
      * @see java.lang.Thread#getContextClassLoader()
      */
     public static ClassLoader getClassLoader() {
-        return getClassLoader(ClassHelper.class);
+        return getClassLoader(ClassUtils.class);
     }
 
     /**
