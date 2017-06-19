@@ -99,7 +99,7 @@ public class PoolRestClient extends GeneralPoolRestClient{
         setRestTemplate(restTemplate);
 	}
 
-	protected static RestTemplate getClient(){
+	public static RestTemplate getClient(){
 		return PoolRestClient.getInstance().getRestTemplate();
 	}
 

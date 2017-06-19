@@ -15,9 +15,13 @@ import java.io.Writer;
 import java.util.*;
 
 /**
- * XML工具类
- * Created by Administrator on 2017/6/12.
+ * Author: zhihu.kang<br/>
+ * Data: 2017/6/17 1:22<br/>
+ * Email: kangzhihu@163.com<br/>
+ * Description:<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;XML工具类<br/><br/>
  */
+
 public class XmlUtils {
     private final static transient Logger logger = LoggerFactory.getLogger(XmlUtils.class);
     public static String formatXml(String str, String encoding) {

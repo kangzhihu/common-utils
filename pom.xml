@@ -6,13 +6,16 @@
   <artifactId>utils</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <!-- 全局配置变量-->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <kotlin.version>1.0.5-2</kotlin.version>
+    <batik.version>1.9</batik.version>
+  </properties>
+
+  <packaging>pom</packaging>
+
   <dependencies>
-    <!-- 使用时在配置部分-->
-    <!--<dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.6.4</version>
-    </dependency>-->
     <!-- logback
 			logback-classic包含了logback本身所需的slf4j-api.jar、logback-core.jar及logback-classsic.jar
 			logback-ext-spring是由官方提供的对Spring的支持，它的作用就相当于log4j中的Log4jConfigListener
@@ -85,6 +88,7 @@
       <version>3.2.1</version>
     </dependency>
 
+    <!-- apache工具包-->
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
@@ -103,18 +107,19 @@
       <version>3.20.0-GA</version>
     </dependency>
 
+    <!-- guava 谷歌工具包-->
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>1.8.3</version>
     </dependency>
 
-    <!-- guava -->
-  <!--  <dependency>
+    <!-- guava 谷歌工具包-->
+    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>21.0</version>
-    </dependency>-->
+    </dependency>
 
     <!-- 二维码 -->
     <dependency>
@@ -145,19 +150,27 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+    <!-- svg parse -->
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-codec</artifactId>
+      <version>${batik.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-constants</artifactId>
+      <version>${batik.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-i18n</artifactId>
+      <version>${batik.version}</version>
+    </dependency>
+
+
   </dependencies>
 
-  <packaging>pom</packaging>
 
-  <distributionManagement>
-    <site>
-      <id>website</id>
-      <url>scp://webhost.company.com/www/website</url>
-    </site>
-  </distributionManagement>
 
-  <properties>
-    <kotlin.version>1.0.5-2</kotlin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 </project>

@@ -26,6 +26,10 @@ public final class QRCodeUtil {
     private static final String FORMAT_NAME = "JPG";
     /** default qrcode width and height */
     private static final int DEFAULT_QRCODE_SIZE = 200;
+
+    private static final int DEFAULT_BARCODE_WIDTH = 1000;
+    private static final int DEFAULT_BARCODE_HEIGHT = 3000;
+
     /** LOGO宽度 */
     private static final int WIDTH = 60;
     /** LOGO高度 */
@@ -51,7 +55,7 @@ public final class QRCodeUtil {
      * @throws Exception
      */
     public static void encode(String content, String destPath, int width, int height, int offset) throws Exception {
-        QRCodeUtil.encode(content, null, destPath, false);
+        QRCodeUtil.encode(content, null, destPath, false,width, height, offset);
     }
 
     /**
@@ -88,7 +92,6 @@ public final class QRCodeUtil {
 
     /**
      * 生成二维码(内嵌LOGO)
-     * 
      * @param content 内容
      * @param imgPath LOGO地址
      * @param destPath 存储地址
@@ -100,8 +103,8 @@ public final class QRCodeUtil {
         ImageIO.write(image, FORMAT_NAME, new File(destPath));
     }
 
-    public static void encode(String content, String imgPath, String destPath, boolean needCompress, int width,
-            int height, int offset) throws Exception {
+    public static void encode(String content, String imgPath, String destPath, boolean needCompress, Integer width,
+                              Integer height, Integer offset) throws Exception {
         BufferedImage image = QRCodeUtil.createImage(content, imgPath, needCompress, width, height, offset);
         ImageIO.write(image, FORMAT_NAME, new File(destPath));
     }
@@ -137,9 +140,11 @@ public final class QRCodeUtil {
         return image;
     }
 
-    public static BufferedImage createImage(String content, String imgPath, boolean needCompress, int width, int height,
+    public static BufferedImage createImage(String content, String imgPath, boolean needCompress, Integer width, Integer height,
             int offset) throws Exception {
         BufferedImage image = null;
+        width  = width == null?WIDTH:width;
+        height  = height == null?HEIGHT:height;
         if (imgPath == null || "".equals(imgPath)) {
             return toBufferedImage(content, width, height, offset);
         }
@@ -167,12 +172,14 @@ public final class QRCodeUtil {
      * @param height 高度
      * @param offset 偏移量
     */
-    public static void encodeBarCode128(String contents, String dest, int width, int height, int offset)
-            throws WriterException, FileNotFoundException, IOException {
+    public static void encodeBarCode128(String contents, String dest, Integer width, Integer height, int offset)
+            throws WriterException, IOException {
         Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         hints.put(EncodeHintType.CHARACTER_SET, CHARSET);
         hints.put(EncodeHintType.MARGIN, 1);
+        width = width == null?DEFAULT_BARCODE_WIDTH:width;
+        height = height == null?DEFAULT_BARCODE_HEIGHT:height;
         BitMatrix matrix = new MultiFormatWriter().encode(contents, BarcodeFormat.CODE_128, width - offset, height, hints);
         try(OutputStream stream = new FileOutputStream(new File(dest))){
             MatrixToImageWriter.writeToStream(matrix, FORMAT_NAME, stream);

@@ -11,7 +11,7 @@ import java.util.Map;
  * Time: 2016/12/26 22:57<br/>
  * Email:kangzhihu@163.com<br/>
  * Descriptions:<br/>
- * 结果封装类，用于封装返回信息,使得系统之间，BS之间结果处理规范，十分推荐使用本类
+ * &nbsp;&nbsp;&nbsp;&nbsp;结果封装类，用于封装返回信息,使得系统之间，BS之间结果处理规范，十分推荐使用本类
  */
 public class ResultCode<T> implements Serializable {
     private static final long serialVersionUID = -2799220511062883271L;
