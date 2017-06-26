@@ -25,7 +25,7 @@ public class GuavaCacheUtils {
     /**
      * 获取缓冲.
      * <br><b>Warning：</b>CacheLoader重载的load方法<b>不能</b>返回<b>null</b>，否则将抛出异常。如果实际业务有null返回，则<b>必须</b>做好null处理.
-     * <pre>{@code
+     * <pre>exp:{@code
      *      //warning: if locad return null,it will throws a exception!!
      *     public static LoadingCache<String, City> CITYS = GuavaCacheUtils.loadingCached(
      *          //if the key not exists in the cache,the init it by the given method.
