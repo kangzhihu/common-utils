@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class GuavaCacheUtils {
-    public GuavaCacheUtils() {
+    private GuavaCacheUtils() {
     }
 
     /**
