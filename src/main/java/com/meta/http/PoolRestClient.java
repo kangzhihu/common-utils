@@ -21,11 +21,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Description: <br/>
- * &nbsp;&nbsp;池化RestClient，不直接提供功能，只提供给PoolRestClientUtils<br/>
  * Created by zhihu.kang<br/>
  * Time: 2017/6/13 22:36<br/>
  * Email:kangzhihu@163.com<br/>
+ * Description: <br/>
+ * &nbsp;&nbsp;池化RestClient，不直接提供功能，只提供给PoolRestClientUtils<br/>
+ * &nbsp;&nbsp;使用时，若要对初始参数进行调整，需对本类进行重载initParams()方法。
  */
 
 public class PoolRestClient extends GeneralPoolRestClient{
