@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class SimpleTask implements Runnable {
 	
-	private Logger log = LoggerFactory.getLogger(WepiaoTask.class);
+	private Logger log = LoggerFactory.getLogger(SimpleTask.class);
 
 	/** 任务名称 */
 	private String taskName;
