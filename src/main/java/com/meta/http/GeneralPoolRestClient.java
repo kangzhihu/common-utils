@@ -39,10 +39,16 @@ public abstract class GeneralPoolRestClient {
 	private int requestTimeout = 3000;
 
 	protected GeneralPoolRestClient() {
+		initParams();
 		initHttpClient();
 		initRestTemplate();
 	}
 
+	/**
+	 * init params
+	 * void
+	 */
+	protected void initParams(){}
 	/**
 	 * build httpclient
 	 * void
