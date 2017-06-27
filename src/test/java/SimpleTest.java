@@ -1,4 +1,5 @@
 import com.meta.file.ResourceListener;
+import com.meta.http.GeneralHttpClientUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,8 @@ public class SimpleTest {
     private static final transient Logger dbLogger = LoggerFactory.getLogger(SimpleTest.class);
     @Test
     public void testMethod() throws Exception{
-
+        String result = GeneralHttpClientUtils.httpGetRequest("http://httpbin.org/get");
+        System.out.println(result);
     }
 
     public static void main(String[] args) throws IOException {

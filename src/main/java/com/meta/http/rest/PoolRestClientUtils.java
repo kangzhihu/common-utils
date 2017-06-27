@@ -1,4 +1,4 @@
-package com.meta.http;
+package com.meta.http.rest;
 
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;

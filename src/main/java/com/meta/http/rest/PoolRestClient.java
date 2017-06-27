@@ -1,4 +1,4 @@
-package com.meta.http;
+package com.meta.http.rest;
 
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -106,7 +106,7 @@ public class PoolRestClient extends GeneralPoolRestClient{
 
 	protected CloseableHttpClient get() {
 		if (null == getHttpClient()) {
-			throw new IllegalStateException("The HttpClient manager not ready,please init it first!");
+			throw new IllegalStateException("The HttpClientConfiguration manager not ready,please init it first!");
 		}
 		return getHttpClient();
 	}

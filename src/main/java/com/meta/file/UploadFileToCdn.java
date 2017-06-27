@@ -1,6 +1,6 @@
 package com.meta.file;
 
-import com.meta.http.PoolRestClient;
+import com.meta.http.rest.PoolRestClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
