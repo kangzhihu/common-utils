@@ -53,9 +53,9 @@ public class GuavaCacheUtils {
      *             // will get exception if  new CacheLoader().load() return null.
      *             CITYS.invalidate(cityId);//异常数据需要兜底否？
      *         }
-     *         /*if(!city.isPresent()){//兜底数据处理，设置或移出
-     *             CITYS.invalidate(cityId);
-     *         }*/
+     *         //if(!city.isPresent()){//兜底数据处理，设置或移出
+     *         //   CITYS.invalidate(cityId);
+     *         //}
      *         return city.orElse(null);
      *     }
      *
@@ -98,9 +98,9 @@ public class GuavaCacheUtils {
      *         City c = dao.getCityById(cityId);
      *         return Optional.ofNullable(c）;
      *     });
-     *     /*if(!city.isPresent()){ //兜底数据处理,设置或移出
-     *         GuavaCaches.CITYS.invalidate(cityId);
-     *     }*/
+     *     //if(!city.isPresent()){ //兜底数据处理,设置或移出
+     *     //   GuavaCaches.CITYS.invalidate(cityId);
+     *     //}
      *  }catch(Exception e){
      *      e.printStackTrace();
      *      GuavaCaches.CITYS.invalidate(cityId);//异常数据需要兜底否？
