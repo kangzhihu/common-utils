@@ -4,8 +4,12 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.Striped;
+import com.sun.istack.internal.NotNull;
 
 import java.util.concurrent.TimeUnit;
+import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 
 /**
  * Author: zhihu.kang<br/>
@@ -23,7 +27,26 @@ import java.util.concurrent.TimeUnit;
 public class GuavaCacheUtils {
     private GuavaCacheUtils() {
     }
+    //创建一个弱引用的Striped<Lock>
+    private static final Striped<Lock> striped = Striped.lazyWeakLock(200);
+    /**
+     * 根据key获得桶锁
+     * @param key
+     * @return
+     */
+    public static Lock getLock(@NotNull String key) throws NullPointerException{
+        if(key==null || "".equals(key)) throw new NullPointerException("lock key can't be empty or null!");
+        return striped.get(key);
+    }
 
+    /**
+     * 释放锁
+     * @param lock
+     */
+    public static void unLock(@NotNull Lock lock){
+        if(lock!=null)lock.unlock();
+    }
+    
     /**
      * 获取缓冲。<br/>被动更新操作时，对于同一个key，只让一个请求回源load，其他线程阻塞等待结果。
      * <br><b>Warning：</b>CacheLoader重载的load方法<b>不能</b>返回<b>null</b>，否则将抛出异常。
