@@ -13,9 +13,11 @@ import java.util.concurrent.TimeUnit;
  * Email: kangzhihu@163.com<br/>
  * Description:
  * <br/> &nbsp;&nbsp;&nbsp;&nbsp;Guava Cache 工具类。<br/>
- * &nbsp;&nbsp;&nbsp;&nbsp;一个全内存的本地缓存实现，它提供了线程安全的实现机制，是本地缓存。
+ * &nbsp;&nbsp;&nbsp;&nbsp;一个全内存的本地堆缓存实现，它提供了线程安全的实现机制，是本地堆缓存。
  * Guava Cache与ConcurrentMap很相似，但也不完全一样。最基本的区别是ConcurrentMap会一直保存所有添加的元素，直到显式地移除。
- *  相对地，Guava Cache为了限制内存占用，通常都设定为自动回收元素。<br/><br/>
+ * 相对地，Guava Cache为了限制内存占用，通常都设定为自动回收元素。<br/>
+ * Guava Cache不会在缓存数据失效时立即触发回收冬至，而是在PUT时会主动进行一次缓存清理，若需要清理，则需自己设计线程调用cleanUp清理。<br/>
+ * 默认并发级别（concurrencyLevel）为4.
  */
 
 public class GuavaCacheUtils {
@@ -58,9 +60,9 @@ public class GuavaCacheUtils {
      *
      * }</pre>
      * @param cacheLoader 针对整个cache给定统一初始值
-     * @param maxmumSize 最大缓存对象数量
+     * @param maxmumSize 最大缓存对象数量，LRU(最近最少使用)回收策略
      * @param expireAfterWrite 某个键值对被创建或值被替换后多少时间移除（TimeUnit.SECONDS）
-     * @param expireAfterAccess 某个键值对最后一次访问之后多少时间后移除（TimeUnit.SECONDS）
+     * @param expireAfterAccess 某个键值对最后一次访问之后多少时间后移除（TimeUnit.SECONDS）,为防止频繁读导致的脏数据，建议设置expireAfterWrite
      * @param refreshAfterWrite //某个键值对被创建或值被替换后多少时间自动刷新cache（TimeUnit.SECONDS）
      * @return
      */
@@ -107,9 +109,9 @@ public class GuavaCacheUtils {
      *
      *
      * }</pre>
-     * @param maxmumSize 最大缓存对象数量
+     * @param maxmumSize 最大缓存对象数量，LRU(最近最少使用)回收策略
      * @param expireAfterWrite  某个键值对被创建或值被替换后多少时间移除（TimeUnit.SECONDS）
-     * @param expireAfterAccess 某个键值对最后一次访问之后多少时间后移除（TimeUnit.SECONDS）
+     * @param expireAfterAccess 某个键值对最后一次访问之后多少时间后移除（TimeUnit.SECONDS）,为防止频繁读导致的脏数据，建议设置expireAfterWrite
      * @return
      */
     public static <K, V> Cache<K, V> callableCached(int maxmumSize, long expireAfterWrite, long expireAfterAccess) {
