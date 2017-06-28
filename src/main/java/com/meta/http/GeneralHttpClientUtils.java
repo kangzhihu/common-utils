@@ -141,6 +141,6 @@ public class GeneralHttpClientUtils {
 
         }
 
-        return "";
+        return HttpClientConfiguration.NULL_STRING;
     }
 }
