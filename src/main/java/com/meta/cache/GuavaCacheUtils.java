@@ -25,7 +25,7 @@ public class GuavaCacheUtils {
     }
 
     /**
-     * 获取缓冲.
+     * 获取缓冲。<br/>被动更新操作时，对于同一个key，只让一个请求回源load，其他线程阻塞等待结果。
      * <br><b>Warning：</b>CacheLoader重载的load方法<b>不能</b>返回<b>null</b>，否则将抛出异常。
      * 如果实际业务有null返回，则<b>必须</b>做好null处理，本方法使用Optional处理空，这样会产生兜底数据，若不需要兜底数据，则处理掉。
      * <pre>exp:{@code
