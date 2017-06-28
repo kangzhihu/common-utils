@@ -87,7 +87,7 @@ public class GeneralHttpClientUtils {
     public static String httpPostRequest(String url, Map<String, Object> params) throws UnsupportedEncodingException {
         HttpPost httpPost = new HttpPost(url);
         ArrayList<NameValuePair> pairs = covertParams2NVPS(params);
-        httpPost.setEntity(new UrlEncodedFormEntity(pairs, HttpClientConfiguration.DEFAULT_ENCODE));
+        httpPost.setEntity(new UrlEncodedFormEntity(pairs, StandardCharsets.UTF_8));
         return getResult(httpPost);
     }
 
@@ -100,7 +100,7 @@ public class GeneralHttpClientUtils {
         }
 
         ArrayList<NameValuePair> pairs = covertParams2NVPS(params);
-        httpPost.setEntity(new UrlEncodedFormEntity(pairs, HttpClientConfiguration.DEFAULT_ENCODE));
+        httpPost.setEntity(new UrlEncodedFormEntity(pairs, StandardCharsets.UTF_8));
 
         return getResult(httpPost);
     }
