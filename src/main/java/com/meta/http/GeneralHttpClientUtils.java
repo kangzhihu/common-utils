@@ -22,11 +22,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Description: <br/>
- * &nbsp;&nbsp;&nbsp;&nbsp;Http工具类<br/><br/>
  * Created by zhihu.kang<br/>
  * Time: 2017/6/13 0:18<br/>
  * Email:kangzhihu@163.com<br/>
+ * Description: <br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;Http工具类,依赖于org.apache.httpcomponents.httpclient，为commons-httpclient.commons-httpclient的升级版本，commons-httpclient已废弃<br/>
+ *  <br/>
  */
 public class GeneralHttpClientUtils {
 
