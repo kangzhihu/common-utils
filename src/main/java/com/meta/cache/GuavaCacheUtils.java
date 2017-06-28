@@ -36,6 +36,7 @@ public class GuavaCacheUtils {
      *              public Optional<City> load(String key) throws Exception {
      *                  try{
      *                       City city = findCityIdList(); //get init value at first time
+     *                       //可在此处进行失败统计，失败通知等处理。
      *                       return Optional.ofNullable(city); //warn: 默认将返回兜底数据，防止数据在db中不存在时频繁查询.
      *                }catch(Exception e){//
      *                     e.printStackTrace();
@@ -96,6 +97,7 @@ public class GuavaCacheUtils {
      *  try{
      *      city = GuavaCaches.CITYS.get(cityId, () -> { //if not exists in cache,get in db or somewhere and cache it
      *         City c = dao.getCityById(cityId);
+     *         //可此处进行失败统计，失败通知等处理。
      *         return Optional.ofNullable(c）;
      *     });
      *     //if(!city.isPresent()){ //兜底数据处理,设置或移出
