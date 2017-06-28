@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -91,7 +92,7 @@ public class PoolRestClient extends GeneralPoolRestClient{
         
         // 添加内容转换器
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-        messageConverters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
+        messageConverters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
         messageConverters.add(new FormHttpMessageConverter());
         messageConverters.add(new MappingJackson2HttpMessageConverter());
         RestTemplate restTemplate = new RestTemplate(messageConverters);
