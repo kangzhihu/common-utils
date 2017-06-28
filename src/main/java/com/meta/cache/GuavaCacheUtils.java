@@ -21,7 +21,9 @@ import java.util.concurrent.locks.Lock;
  * Guava Cache与ConcurrentMap很相似，但也不完全一样。最基本的区别是ConcurrentMap会一直保存所有添加的元素，直到显式地移除。
  * 相对地，Guava Cache为了限制内存占用，通常都设定为自动回收元素。<br/>
  * Guava Cache不会在缓存数据失效时立即触发回收冬至，而是在PUT时会主动进行一次缓存清理，若需要清理，则需自己设计线程调用cleanUp清理。<br/>
- * 默认并发级别（concurrencyLevel）为4.
+ * 默认并发级别（concurrencyLevel）为4.<br/>
+ * Guava Cache不支持Write-Through（穿透写模式/直写模式）--业务代码首先调用Cache写（新增/修改）数据，然后由Cache负责写缓存和SoR,所以需要在业务
+ * 代码中去控制或者在允许延迟情况下使用refreshAfterWrite去更新。
  */
 
 public class GuavaCacheUtils {
