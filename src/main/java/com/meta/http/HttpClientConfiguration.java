@@ -14,7 +14,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
  * &nbsp;&nbsp;&nbsp;&nbsp;abstract HttpClientConfiguration<br/><br/>
  */
 public abstract class HttpClientConfiguration {
-    public static String DEFAULT_ENCODE = "UTF-8";
+
     public static String NULL_STRING = new String();
     //设置访问协议
     protected Registry<ConnectionSocketFactory> socketFactoryRegistry;
