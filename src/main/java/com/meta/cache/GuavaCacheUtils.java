@@ -26,36 +26,37 @@ public class GuavaCacheUtils {
 
     /**
      * 获取缓冲.
-     * <br><b>Warning：</b>CacheLoader重载的load方法<b>不能</b>返回<b>null</b>，否则将抛出异常。如果实际业务有null返回，则<b>必须</b>做好null处理.
+     * <br><b>Warning：</b>CacheLoader重载的load方法<b>不能</b>返回<b>null</b>，否则将抛出异常。
+     * 如果实际业务有null返回，则<b>必须</b>做好null处理，本方法使用Optional处理空，这样会产生兜底数据，若不需要兜底数据，则处理掉。
      * <pre>exp:{@code
      *      //warning: if locad return null,it will throws a exception!!
-     *     public static LoadingCache<String, City> CITYS = GuavaCacheUtils.loadingCached(
+     *     public static LoadingCache<String, Optional<City>> CITYS = GuavaCacheUtils.loadingCached(
      *          //if the key not exists in the cache,the init it by the given method.
-     *          new CacheLoader<String, City>() {
-     *              public City load(String key) throws Exception {
+     *          new CacheLoader<String, Optional<City>>() {
+     *              public Optional<City> load(String key) throws Exception {
      *                  try{
-     *                       City city = findCityIdList(); //get it
-     *                       return city; //warn: will throw excepton if is null.
+     *                       City city = findCityIdList(); //get init value at first time
+     *                       return Optional.ofNullable(city); //warn: 默认将返回兜底数据，防止数据在db中不存在时频繁查询.
      *                }catch(Exception e){//
      *                     e.printStackTrace();
-     *                      return null;
+     *                     return Optional.empty();
      *                }
      *              }
      *      }, 1000, -1, 24 * 3600, 1800);
      *
      *
      *     public City getCityByCityId(String cityId) {
-     *         City city = null;
+     *         Optional<City> city = null;
      *         try{
-     *             city = GuavaCaches.CITYS.getUnchecked(cityId);
+     *             city = CITYS.getUnchecked(cityId);
      *         }catch(Exception e){
      *             // will get exception if  new CacheLoader().load() return null.
-     *             GuavaCaches.CITYS.invalidate(cityId);
+     *             CITYS.invalidate(cityId);//异常数据需要兜底否？
      *         }
-     *         if(city == null){    //remove tht cached key
-     *             GuavaCaches.CITYS.invalidate(cityId);
-     *         }
-     *         return city;
+     *         /*if(!city.isPresent()){//兜底数据处理，设置或移出
+     *             CITYS.invalidate(cityId);
+     *         }*/
+     *         return city.orElse(null);
      *     }
      *
      * }</pre>
@@ -88,30 +89,30 @@ public class GuavaCacheUtils {
     /**
      * callable callback的方式实现缓存
      * <pre>exp:<br/>{@code
-     * public static Cache<String, City> CITYS = GuavaCacheUtils.callableCached(100, 600, -1);
+     * public static Cache<String, Optional<City>> CITYS = GuavaCacheUtils.callableCached(100, 600, -1);
      *
      * public City getDistrictByCityId(String cityId) {
-     *  City city =null;
+     *  Optional<City> city =null;
      *  try{
      *      city = GuavaCaches.CITYS.get(cityId, () -> { //if not exists in cache,get in db or somewhere and cache it
      *         City c = dao.getCityById(cityId);
-     *         c != null?return city: return null;
+     *         return Optional.ofNullable(c）;
      *     });
-     *     if(city == null){ //if still not get,remove the chached key
+     *     /*if(!city.isPresent()){ //兜底数据处理,设置或移出
      *         GuavaCaches.CITYS.invalidate(cityId);
-     *     }
+     *     }*/
      *  }catch(Exception e){
      *      e.printStackTrace();
-     *      GuavaCaches.CITYS.invalidate(cityId);
+     *      GuavaCaches.CITYS.invalidate(cityId);//异常数据需要兜底否？
      *  }
-     *  return city;
+     *  return city.orElse(null);
      * }
      *
      *
-     * }</pre>
+     * }</pre>expireAfterAccess
      * @param maxmumSize 最大缓存对象数量，LRU(最近最少使用)回收策略
      * @param expireAfterWrite  某个键值对被创建或值被替换后多少时间移除（TimeUnit.SECONDS）
-     * @param expireAfterAccess 某个键值对最后一次访问之后多少时间后移除（TimeUnit.SECONDS）,为防止频繁读导致的脏数据，建议设置expireAfterWrite
+     * @param  某个键值对最后一次访问之后多少时间后移除（TimeUnit.SECONDS）,为防止频繁读导致的脏数据，建议设置expireAfterWrite
      * @return
      */
     public static <K, V> Cache<K, V> callableCached(int maxmumSize, long expireAfterWrite, long expireAfterAccess) {
