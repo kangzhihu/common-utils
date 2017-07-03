@@ -29,10 +29,15 @@ import java.util.concurrent.locks.Lock;
 public class GuavaCacheUtils {
     private GuavaCacheUtils() {
     }
-    //创建一个弱引用的Striped<Lock>
+    //创建一个弱引用的Striped<Lock>,类似桶锁。
+    //Striped这个类的底层实现是ConcurrentHashMap,传递对象的hashCode一致，返回相同对象的锁，或者信号量.
+    //但是它不能保证对象的hashCode不一致，则返回的Lock未必不是同一个。
     private static final Striped<Lock> striped = Striped.lazyWeakLock(200);
     /**
      * 根据key获得桶锁
+     * 1) Lock lock = GuavaCacheUtils.getLock(key);
+     * 2) lock.lock();
+     * 3) finally -> GuavaCacheUtils.unLock(lock);
      * @param key
      * @return
      */
