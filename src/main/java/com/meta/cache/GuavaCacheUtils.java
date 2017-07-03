@@ -10,6 +10,7 @@ import com.sun.istack.internal.NotNull;
 import java.util.concurrent.TimeUnit;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
 
 /**
  * Author: zhihu.kang<br/>
@@ -33,6 +34,18 @@ public class GuavaCacheUtils {
     //Striped这个类的底层实现是ConcurrentHashMap,传递对象的hashCode一致，返回相同对象的锁，或者信号量.
     //但是它不能保证对象的hashCode不一致，则返回的Lock未必不是同一个。
     private static final Striped<Lock> striped = Striped.lazyWeakLock(200);
+    private static final Striped<ReadWriteLock> rwStriped = Striped.lazyWeakReadWriteLock(200);
+    
+    /**
+     * 根据key获得读写锁
+     * @param key
+     * @return
+     */
+    public static ReadWriteLock getReadWriteLock(@NotNull String key) throws NullPointerException{
+        if(key==null || "".equals(key)) throw new NullPointerException("readwrite lock key can't be empty or null!");
+        return rwStriped.get(key);
+    }
+    
     /**
      * 根据key获得桶锁
      * 1) Lock lock = GuavaCacheUtils.getLock(key);
