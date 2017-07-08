@@ -8,7 +8,6 @@ import com.google.common.util.concurrent.Striped;
 import com.sun.istack.internal.NotNull;
 
 import java.util.concurrent.TimeUnit;
-import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 
@@ -157,7 +156,7 @@ public class GuavaCacheUtils {
      * }</pre>expireAfterAccess
      * @param maxmumSize 最大缓存对象数量，LRU(最近最少使用)回收策略
      * @param expireAfterWrite  某个键值对被创建或值被替换后多少时间移除（TimeUnit.SECONDS）
-     * @param  某个键值对最后一次访问之后多少时间后移除（TimeUnit.SECONDS）,为防止频繁读导致的脏数据，建议设置expireAfterWrite
+     * @param  expireAfterAccess 某个键值对最后一次访问之后多少时间后移除（TimeUnit.SECONDS）,为防止频繁读导致的脏数据，建议设置expireAfterWrite
      * @return
      */
     public static <K, V> Cache<K, V> callableCached(int maxmumSize, long expireAfterWrite, long expireAfterAccess) {
