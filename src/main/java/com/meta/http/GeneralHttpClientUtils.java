@@ -20,7 +20,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.Map;
+
 
 /**
  * Created by zhihu.kang<br/>
@@ -39,7 +41,10 @@ public class GeneralHttpClientUtils {
     private static final CloseableHttpClient httpClient；
 
    static{
-        httpClient = GeneralHttpClientConfiguration.getSingleton().getHttpClientBuilder().build();
+        httpClient = GeneralHttpClientConfiguration.getSingleton().getHttpClientBuilder()
+            .evictExpiredConnections()
+            .setConnectionTimeToLive(60,TimeUnit.SECONDS)
+            .build();
         Runtime.getRuntime().addShutdownHook(new Thread(){
             public void run(){
                 try {
