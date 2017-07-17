@@ -42,7 +42,7 @@ public class GeneralHttpClientUtils {
 
    static{
         httpClient = GeneralHttpClientConfiguration.getSingleton().getHttpClientBuilder()
-            .evictExpiredConnections()
+            .evictExpiredConnections()//定期回收过期连接
             .setConnectionTimeToLive(60,TimeUnit.SECONDS)
             .build();
         Runtime.getRuntime().addShutdownHook(new Thread(){
