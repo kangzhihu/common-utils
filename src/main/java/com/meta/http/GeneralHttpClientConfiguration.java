@@ -48,10 +48,13 @@ public class GeneralHttpClientConfiguration extends HttpClientConfiguration{
         poolManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         // 整个连接池最大连接数
         poolManager.setMaxTotal(100);
-        // 单路由最大连接数，默认值是2，
+        // 单路由最大连接数，默认值是2，控制连接到指定连接时并发量(而不是由池子大小控制，池子控制总并发量)
+        // 如连接到http://qq.com和http://jd.com时，每个主机并发最多80个，总并发数量最多100个
         // 设置过小无法支撑大并发(ConnectionPoolTimeoutException: Timeout waiting for connection from pool)
         // 路由是对maxTotal的细分，http路由表示请求URL映射到handler处理器的过程
         poolManager.setDefaultMaxPerRoute(80);
+        //从连接池获取连接时，连接不活跃多长时间后需要进行一次验证，默认为2s
+        poolManager.setValidateAfterInactivity(5*1000);
     }
 
     @Override
