@@ -123,25 +123,23 @@ public class GeneralHttpClientUtils {
     private static String getResult(HttpRequestBase request) {
         // CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpClient httpClient = getHttpClient();
+        CloseableHttpResponse response = null;
         try {
-            CloseableHttpResponse response = httpClient.execute(request);
-            // response.getStatusLine().getStatusCode();
+            response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                // long len = entity.getContentLength();// -1 表示长度未知
+            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                EntityUtils.consume(entity);
+            }else{
                 String result = EntityUtils.toString(entity);
-                response.close();
-                // httpClient.close();
+                //response.close();   //不要这样关闭，将直接关闭Socket，导致长连接不能复用
                 return result;
             }
-        } catch (ClientProtocolException e) {
+        } catch (Exception e) {
+            if(response != null){
+                EntityUtils.consume(response.getEntity());
+            }
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-
         }
-
         return HttpClientConfiguration.NULL_STRING;
     }
 }
