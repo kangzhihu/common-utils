@@ -35,13 +35,28 @@ public class GeneralHttpClientUtils {
     private static Logger loggger = LoggerFactory.getLogger(GeneralHttpClientUtils.class);
 
     private GeneralHttpClientUtils(){}
+    
+    private static final CloseableHttpClient httpClient；
 
+   static{
+        httpClient = GeneralHttpClientConfiguration.getSingleton().getHttpClientBuilder().build();
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            public void run(){
+                try {
+                    httpClient.close();
+                    logger.warn("JVM shut down...closing httpClient..");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
     /**
      * 获取HttpClient
      * @return
      */
     private static CloseableHttpClient getHttpClient(){
-        return GeneralHttpClientConfiguration.getSingleton().getHttpClientBuilder().build();
+        return httpClient;
     }
 
     /**
