@@ -50,8 +50,8 @@ public class GeneralHttpClientConfiguration extends HttpClientConfiguration{
         poolManager.setMaxTotal(100);
         // 单路由最大连接数，默认值是2，
         // 设置过小无法支撑大并发(ConnectionPoolTimeoutException: Timeout waiting for connection from pool)
-        // 路由是对maxTotal的细分
-        poolManager.setDefaultMaxPerRoute(100);
+        // 路由是对maxTotal的细分，http路由表示请求URL映射到handler处理器的过程
+        poolManager.setDefaultMaxPerRoute(80);
     }
 
     @Override
