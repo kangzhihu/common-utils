@@ -45,6 +45,14 @@ public class SimpleExecutorUtils {
 	private void init() {
 		executor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize,
 				keepAliveTime, timeUnit, workQueue, handler);
+		Runtime.getRuntime().addShutdownHook(new Thread(){
+            @Override
+            public void run() {
+                if (executor != null) {
+                    executor.shutdown();
+                }
+            }
+		});
 	}
 	
 	public String addTask(Runnable task) {

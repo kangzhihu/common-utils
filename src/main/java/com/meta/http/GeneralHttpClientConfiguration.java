@@ -26,8 +26,6 @@ public class GeneralHttpClientConfiguration extends HttpClientConfiguration{
 
     private static Logger log = LoggerFactory.getLogger(GeneralHttpClientConfiguration.class);
 
-    private static volatile HttpClientConfiguration httpClientConfiguration;
-
     //HttpClient设置连接超时时间
     private static Integer CONNECTION_TIMEOUT = 2 * 1000; //设置连接主机超时2秒钟 根据业务调整
     private static Integer SO_TIMEOUT = 2 * 1000; //请求获取数据的超时时间，单位毫秒。 如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。 根据业务调整
@@ -78,14 +76,7 @@ public class GeneralHttpClientConfiguration extends HttpClientConfiguration{
                 .setConnectionManager(getPoolManager());
     }
 
-    public static HttpClientConfiguration getSingleton(){
-        if(httpClientConfiguration == null){
-            synchronized (GeneralHttpClientConfiguration.class){
-                if(httpClientConfiguration == null){
-                    httpClientConfiguration = new GeneralHttpClientConfiguration();
-                }
-            }
-        }
-        return httpClientConfiguration;
+    public static HttpClientConfiguration getHttpClientConfiguration(){
+        return new GeneralHttpClientConfiguration();
     }
 }

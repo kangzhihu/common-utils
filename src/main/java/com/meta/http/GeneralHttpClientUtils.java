@@ -1,8 +1,8 @@
 package com.meta.http;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -20,8 +20,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -34,22 +34,24 @@ import java.util.Map;
  */
 public class GeneralHttpClientUtils {
 
-    private static Logger loggger = LoggerFactory.getLogger(GeneralHttpClientUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(GeneralHttpClientUtils.class);
 
     private GeneralHttpClientUtils(){}
     
-    private static final CloseableHttpClient httpClient；
+    private static final CloseableHttpClient httpClient;
 
    static{
-        httpClient = GeneralHttpClientConfiguration.getSingleton().getHttpClientBuilder()
+        httpClient = GeneralHttpClientConfiguration.getHttpClientConfiguration().getHttpClientBuilder()
             .evictExpiredConnections()//定期回收过期连接
             .setConnectionTimeToLive(60,TimeUnit.SECONDS)
             .build();
         Runtime.getRuntime().addShutdownHook(new Thread(){
             public void run(){
                 try {
-                    httpClient.close();
-                    logger.warn("JVM shut down...closing httpClient..");
+                    if(httpClient != null){
+                        httpClient.close();
+                        logger.warn("JVM shutdown,closing httpClient..");
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -150,13 +152,16 @@ public class GeneralHttpClientUtils {
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
                 EntityUtils.consume(entity);
             }else{
-                String result = EntityUtils.toString(entity);
                 //response.close();   //不要这样关闭，将直接关闭Socket，导致长连接不能复用
-                return result;
+                return EntityUtils.toString(entity);
             }
         } catch (Exception e) {
             if(response != null){
-                EntityUtils.consume(response.getEntity());
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
             e.printStackTrace();
         }
