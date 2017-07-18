@@ -11,7 +11,11 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 
 /**
@@ -22,7 +26,7 @@ import java.util.Hashtable;
  */
 public final class QRCodeUtil {
 
-    private static final String CHARSET = "utf-8";
+    private static final String CHARSET = StandardCharsets.UTF_8.name();
     private static final String FORMAT_NAME = "JPG";
     /** default qrcode width and height */
     private static final int DEFAULT_QRCODE_SIZE = 200;

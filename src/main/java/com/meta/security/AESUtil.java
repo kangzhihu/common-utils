@@ -2,7 +2,7 @@ package com.meta.security;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -22,13 +22,11 @@ public class AESUtil {
     private static Cipher cipher;      
     static{       
         try {  
-        	 skeySpec = new SecretKeySpec(KEY.getBytes("utf-8"), "AES");
+        	 skeySpec = new SecretKeySpec(KEY.getBytes(StandardCharsets.UTF_8), "AES");
              cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");//"算法/模式/补码方式"
         } catch (NoSuchPaddingException e) {  
             e.printStackTrace();  
-        } catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}  
     }  //加密算法  
@@ -43,17 +41,15 @@ public class AESUtil {
             //用密钥和一组算法参数初始化此 cipher  
         	 cipher.init(Cipher.ENCRYPT_MODE, skeySpec);   
             //加密并转换成16进制字符串  
-        	 str = asHex(cipher.doFinal(msg.getBytes("utf-8")));  
+        	 str = asHex(cipher.doFinal(msg.getBytes(StandardCharsets.UTF_8)));
         } catch (BadPaddingException e) {  
             e.printStackTrace();  
         } catch (InvalidKeyException e) {  
             e.printStackTrace();  
         } catch (IllegalBlockSizeException e) {  
             e.printStackTrace();  
-        } catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}  
-        return str;  
+        }
+		return str;
     }  
     /** 
      * 将字节数组转换成16进制字符串 
@@ -81,13 +77,13 @@ public class AESUtil {
 		try {
 			KeyGenerator kgen = KeyGenerator.getInstance("AES");
 			SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
-	        secureRandom.setSeed(password.getBytes("utf-8"));
+	        secureRandom.setSeed(password.getBytes(StandardCharsets.UTF_8));
 	        kgen.init(128, secureRandom);
 			SecretKey secretKey = kgen.generateKey();
 			byte[] enCodeFormat = secretKey.getEncoded();
 			SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
 			Cipher cipher = Cipher.getInstance("AES");// 创建密码器
-			byte[] byteContent = content.getBytes("utf-8");
+			byte[] byteContent = content.getBytes(StandardCharsets.UTF_8);
 			cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
 			byte[] result = cipher.doFinal(byteContent);
 			return parseByte2HexStr(result); // 加密
@@ -96,8 +92,6 @@ public class AESUtil {
 		} catch (NoSuchPaddingException e) {
 			e.printStackTrace();
 		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {
 			e.printStackTrace();
@@ -120,7 +114,7 @@ public class AESUtil {
 		try {
 			KeyGenerator kgen = KeyGenerator.getInstance("AES");
 			SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
-	        secureRandom.setSeed(password.getBytes("utf-8"));
+	        secureRandom.setSeed(password.getBytes(StandardCharsets.UTF_8));
 	        kgen.init(128, secureRandom);
 			SecretKey secretKey = kgen.generateKey();
 			byte[] enCodeFormat = secretKey.getEncoded();
@@ -138,8 +132,6 @@ public class AESUtil {
 		} catch (IllegalBlockSizeException e) {
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return null;
