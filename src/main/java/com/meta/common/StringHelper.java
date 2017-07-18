@@ -21,7 +21,6 @@ public class StringHelper {
      * @param start 开始位置
      * @param length 截取字节byte个数（中文个数*3）
      * @return
-     * @throws Exception
      */
     public static String substring(String text, int start, int length) {
         if (text == null) {
