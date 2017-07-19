@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.*;
 
-public class SimpleExecutorUtils {
+public class RunnableExecutorUtils {
 
-    private Logger logger = LoggerFactory.getLogger(SimpleExecutorUtils.class);
+    private Logger logger = LoggerFactory.getLogger(RunnableExecutorUtils.class);
 
     private int corePoolSize = 1;
 
@@ -25,20 +25,20 @@ public class SimpleExecutorUtils {
 
     // private int produceTaskSleepTime = 60; //设置默认值
 
-    private volatile static SimpleExecutorUtils singleton;
+    private volatile static RunnableExecutorUtils singleton;
 
-    public static SimpleExecutorUtils getSingleton() {
+    public static RunnableExecutorUtils getSingleton() {
         if (singleton == null) {
-            synchronized (SimpleExecutorUtils.class) {
+            synchronized (RunnableExecutorUtils.class) {
                 if (singleton == null) {
-                    singleton = new SimpleExecutorUtils();
+                    singleton = new RunnableExecutorUtils();
                 }
             }
         }
         return singleton;
     }
 
-    private SimpleExecutorUtils() {
+    private RunnableExecutorUtils() {
         init();
     }
 
@@ -76,11 +76,11 @@ public class SimpleExecutorUtils {
      */
     public boolean checkActive() {
         // 活跃线程数
-        int activeNum = SimpleExecutorUtils.getSingleton().getExecutor().getActiveCount();
+        int activeNum = RunnableExecutorUtils.getSingleton().getExecutor().getActiveCount();
         // 当前池中的线程数
-        int curNum = SimpleExecutorUtils.getSingleton().getExecutor().getPoolSize();
+        int curNum = RunnableExecutorUtils.getSingleton().getExecutor().getPoolSize();
         // 允许最大线程数
-        int maxNum = SimpleExecutorUtils.getSingleton().getExecutor().getMaximumPoolSize();
+        int maxNum = RunnableExecutorUtils.getSingleton().getExecutor().getMaximumPoolSize();
         logger.info("线程池中的活跃线程数:" + activeNum + ", 当前池中的线程数:" + curNum + ", 允许最大线程数:" + maxNum);
         // 只要最大线程数大于当前活跃线程数，即可执行任务
         if (maxNum <= activeNum) {

@@ -4,9 +4,9 @@ package com.meta.executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class SimpleTask implements Runnable {
+public abstract class RunnableTask implements Runnable {
 	
-	private Logger log = LoggerFactory.getLogger(SimpleTask.class);
+	private Logger log = LoggerFactory.getLogger(RunnableTask.class);
 
 	/** 任务名称 */
 	private String taskName;
@@ -23,7 +23,7 @@ public abstract class SimpleTask implements Runnable {
 	/** 线程任务完成执行时毫秒值 */
 	private long endTime;
 
-	public SimpleTask(String taskName) {
+	public RunnableTask(String taskName) {
 		this.taskName = taskName;
 	}
 	
