@@ -40,7 +40,7 @@ public abstract class RunnableTask implements Runnable {
 	/**
 	 * 线程任务执行过程
 	 */
-	public abstract void excute();
+	public abstract void excute() throws InterruptedException;
 	
 	@Override
 	public void run() {

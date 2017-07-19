@@ -19,9 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -225,10 +223,10 @@ public class GeneralHttpClientUtils {
                 try {
                     EntityUtils.consume(response.getEntity());
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    logger.error("restful 关闭异常："+e1.getMessage());
                 }
             }
-            e.printStackTrace();
+            logger.error("restful 请求异常："+e.getMessage());
         }
         return HttpClientConfiguration.NULL_STRING;
     }

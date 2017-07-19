@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 
 public class RunnableExecutorUtils {
 
-    private Logger logger = LoggerFactory.getLogger(RunnableExecutorUtils.class);
+    private static transient Logger logger = LoggerFactory.getLogger(RunnableExecutorUtils.class);
 
     private int corePoolSize = 1;
 
@@ -55,17 +55,17 @@ public class RunnableExecutorUtils {
         });
     }
 
-    public String addTask(Runnable task) {
+    public boolean addTask(Runnable task) {
         if (task != null) {
             try {
                 executor.execute(task);
-                return "success";
+                return true;
             } catch (Exception e1) {
                 logger.error(e1.getMessage());
-                return "error";
+                return false;
             }
         } else {
-            return "error";
+            return false;
         }
     }
 

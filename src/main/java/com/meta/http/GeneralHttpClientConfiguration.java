@@ -30,7 +30,7 @@ public class GeneralHttpClientConfiguration extends HttpClientConfiguration{
     //HttpClient设置连接超时时间
     private static Integer CONNECTION_TIMEOUT = 2 * 1000; //设置连接主机超时2秒钟 根据业务调整
     private static Integer SO_TIMEOUT = 3 * 1000; //请求获取数据的超时时间，单位毫秒。 如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。 根据业务调整
-    private static Integer CONN_MANAGER_TIMEOUT = 5 * 100; //设设置从connect Manager获取Connection 超时时间(排队) 根据业务调整
+    private static Integer CONN_MANAGER_TIMEOUT = 1500; //设设置从connect Manager获取Connection 超时时间(排队) 根据业务调整
 
     private GeneralHttpClientConfiguration(){}
 
