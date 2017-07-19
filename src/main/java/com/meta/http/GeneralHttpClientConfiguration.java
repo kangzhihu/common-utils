@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Author: zhihu.kang<br/>
@@ -28,13 +29,14 @@ public class GeneralHttpClientConfiguration extends HttpClientConfiguration{
 
     //HttpClient设置连接超时时间
     private static Integer CONNECTION_TIMEOUT = 2 * 1000; //设置连接主机超时2秒钟 根据业务调整
-    private static Integer SO_TIMEOUT = 2 * 1000; //请求获取数据的超时时间，单位毫秒。 如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。 根据业务调整
+    private static Integer SO_TIMEOUT = 3 * 1000; //请求获取数据的超时时间，单位毫秒。 如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。 根据业务调整
     private static Integer CONN_MANAGER_TIMEOUT = 5 * 100; //设设置从connect Manager获取Connection 超时时间(排队) 根据业务调整
 
     private GeneralHttpClientConfiguration(){}
 
     @Override
     protected void initSocketFactoryRegistry() {
+        // 设置协议http和https对应的处理socket链接工厂的对象
         socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", PlainConnectionSocketFactory.getSocketFactory())
                 .register("https", SSLConnectionSocketFactory.getSocketFactory())
@@ -59,9 +61,9 @@ public class GeneralHttpClientConfiguration extends HttpClientConfiguration{
     protected void initRequestConfig() {
         requestConfig = RequestConfig.custom()
                 .setCookieSpec(CookieSpecs.DEFAULT)
-                .setConnectTimeout(CONNECTION_TIMEOUT)
-                .setSocketTimeout(SO_TIMEOUT)
-                .setConnectionRequestTimeout(CONN_MANAGER_TIMEOUT)
+                .setConnectTimeout(CONNECTION_TIMEOUT)//设置请求连接超时时间
+                .setSocketTimeout(SO_TIMEOUT) //设置等待数据超时时间
+                .setConnectionRequestTimeout(CONN_MANAGER_TIMEOUT)//从连接池获取连接超时时间
                 .setExpectContinueEnabled(true)
                 .setTargetPreferredAuthSchemes(Arrays.asList(AuthSchemes.NTLM, AuthSchemes.DIGEST))
                 .setProxyPreferredAuthSchemes(Arrays.asList(AuthSchemes.BASIC))
@@ -71,9 +73,12 @@ public class GeneralHttpClientConfiguration extends HttpClientConfiguration{
     @Override
     protected void initHttpClientBuilder() {
         httpClientBuilder = HttpClients.custom()
-                .setRetryHandler(new DefaultHttpRequestRetryHandler())//默认失败后重发3次，可用别的构造方法指定重发次数
+                .evictExpiredConnections()//定期回收过期连接
+                .setConnectionTimeToLive(60, TimeUnit.SECONDS)
+                .setRetryHandler(new DefaultHttpRequestRetryHandler(0,false))//关闭重试，默认失败后重发3次，可用别的构造方法指定重发次数
                 .setDefaultRequestConfig(getRequestConfig())
-                .setConnectionManager(getPoolManager());
+                .setConnectionManager(getPoolManager())
+                .setConnectionManagerShared(false);//连接池不是共享模式
     }
 
     public static HttpClientConfiguration getHttpClientConfiguration(){
