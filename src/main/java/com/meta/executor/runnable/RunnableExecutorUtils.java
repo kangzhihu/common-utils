@@ -83,11 +83,7 @@ public class RunnableExecutorUtils {
         int maxNum = RunnableExecutorUtils.getSingleton().getExecutor().getMaximumPoolSize();
         logger.info("线程池中的活跃线程数:" + activeNum + ", 当前池中的线程数:" + curNum + ", 允许最大线程数:" + maxNum);
         // 只要最大线程数大于当前活跃线程数，即可执行任务
-        if (maxNum <= activeNum) {
-            return false;
-        } else {
-            return true;
-        }
+        return maxNum > activeNum;
     }
 
     public ThreadPoolExecutor getExecutor() {

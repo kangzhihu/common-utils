@@ -176,7 +176,7 @@ public class PoolRestClientUtils {
             ParameterizedTypeReference<T> typeDef = new ParameterizedTypeReference<T>() {};
             ResponseEntity<T> response = PoolRestClient.getClient().exchange(url, HttpMethod.POST, httpEntity, typeDef);
             if(response.getStatusCode().is2xxSuccessful()){
-                return (T) response.getBody();
+                return response.getBody();
             }else {
                 return null;
             }
