@@ -1,5 +1,6 @@
-package com.meta.executor;
+package com.meta.executor.callable;
 
+import com.meta.executor.runnable.RunnableTask;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,16 +102,8 @@ public class CallableExecutorUtils {
     }
 
 
+    //region mian test
     public static void main(String[] args) throws IOException {
-        /*for (int i=0;i<2000;i++){
-            RunnableExecutorUtils.getSingleton().addTask(new RunnableTask("task"+i) {
-                @Override
-                public void excute() {
-                    String rs = GeneralHttpClientUtils.httpGet("https://www.baidu.com/");
-                    dbLogger.info(rs);
-                }
-            });
-        }*/
         int count = 300;
         final CountDownLatch latch = new CountDownLatch(count);
         for (int i=0;i<count;i++){
