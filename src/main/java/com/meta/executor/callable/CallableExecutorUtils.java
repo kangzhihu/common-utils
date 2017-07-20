@@ -1,18 +1,17 @@
 package com.meta.executor.callable;
 
-import com.meta.executor.runnable.RunnableTask;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.*;
 
 public class CallableExecutorUtils {
 
-    private static transient Logger logger = LoggerFactory.getLogger(CallableExecutorUtils.class);
+    private Logger logger = LoggerFactory.getLogger(CallableExecutorUtils.class);
 
     private int corePoolSize = 1;
 
@@ -66,22 +65,22 @@ public class CallableExecutorUtils {
     }
 
     /**
-     *
+     * 添加task
      * @param task
-     * @param id 若为null或者空，则表示不缓存task
+     * @param id 有值表示cache key
      * @param <T>
      * @return
      */
-    public <T> Future<T> addTask(Callable<T> task,String id) {
+    public <T> Future<T> addTask(Callable<T> task,String... id) {
         if (task != null) {
             try {
-                if(StringUtils.isNotBlank(id)){
-                    Future<T> f = cache.get(id);
+                if(id != null && id.length>0 &&StringUtils.isNotBlank(id[0])){
+                    Future<T> f = cache.get(id[0]);
                     if(f != null){
                         return f;
                     }
                     f = executor.submit(task);
-                    cache.putIfAbsent(id,f);
+                    cache.putIfAbsent(id[0],f);
                     return f;
                 }else{
                     return executor.submit(task);
@@ -93,51 +92,44 @@ public class CallableExecutorUtils {
         return null;
     }
 
+    /**
+     * 添加多个任务（任务之间非阻塞式）
+     * @param tasks
+     * @param <T>
+     * @param <R>
+     * @return
+     */
+    public <T,R> List<T> addTasks(List<Callable<T>> tasks) {
+        List<T> list = new ArrayList<>(0);
+        if (tasks != null && !tasks.isEmpty()) {
+            CompletionService<T> completionServcie = new ExecutorCompletionService<T>(executor);
+            int size = tasks.size();
+            tasks.forEach((task) -> {
+                completionServcie.submit(task);
+            });
+            list = new ArrayList<>(size);
+            try {
+                for (int i = 0; i < size; i++) {
+                    // take 方法等待下一个结果并返回 Future 对象。
+                    // poll 不等待，有结果就返回一个 Future 对象，否则返回 null。
+                    Future<T> future = completionServcie.take();
+                    list.add(future.get());
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
+
     public ThreadPoolExecutor getExecutor() {
         return executor;
     }
 
     public void setExecutor(ThreadPoolExecutor executor) {
         this.executor = executor;
-    }
-
-
-    //region mian test
-    public static void main(String[] args) throws IOException {
-        int count = 300;
-        final CountDownLatch latch = new CountDownLatch(count);
-        for (int i=0;i<count;i++){
-            int index = i;
-            new Thread(new RunnableTask("task**"+i) {
-                @Override
-                public void excute() throws InterruptedException {
-                    if(index%10 != 0){
-                        CallableExecutorUtils utils = CallableExecutorUtils.getSingleton(true);
-                        utils.addTask(new CallableTask<Integer>("Singleton-task") {
-                            @Override
-                            public Integer excute() {
-                                return new Random().nextInt(20);
-                            }
-                        },"Singleton-"+index%10);
-                    }else{
-                        CallableExecutorUtils utils2 = CallableExecutorUtils.getSingleton(false);
-                        utils2.addTask(new CallableTask<Integer>("Not Singleton-task") {
-                            @Override
-                            public Integer excute() {
-                                return new Random().nextInt(20);
-                            }
-                        },null);
-                    }
-                    latch.countDown();
-                }
-            }).start();
-        }
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        logger.error("latch.getCount()---"+latch.getCount());
     }
 
 }
