@@ -27,6 +27,8 @@ public class CallableExecutorUtils {
 
     private ThreadPoolExecutor executor = null;
 
+    private CompletionService completionServcie = null;
+
     private Map<String,Future> cache = new ConcurrentHashMap();
 
     private volatile static CallableExecutorUtils singleton;
@@ -62,6 +64,7 @@ public class CallableExecutorUtils {
                 }
             }
         });
+        completionServcie = new ExecutorCompletionService(executor);
     }
 
     /**
@@ -79,11 +82,11 @@ public class CallableExecutorUtils {
                     if(f != null){
                         return f;
                     }
-                    f = executor.submit(task);
+                    f = (Future<T>)completionServcie.submit(task);
                     cache.putIfAbsent(id[0],f);
                     return f;
                 }else{
-                    return executor.submit(task);
+                    return (Future<T>)completionServcie.submit(task);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -102,7 +105,6 @@ public class CallableExecutorUtils {
     public <T,R> List<T> addTasks(List<Callable<T>> tasks) {
         List<T> list = new ArrayList<>(0);
         if (tasks != null && !tasks.isEmpty()) {
-            CompletionService<T> completionServcie = new ExecutorCompletionService<T>(executor);
             int size = tasks.size();
             tasks.forEach((task) -> {
                 completionServcie.submit(task);
@@ -112,7 +114,7 @@ public class CallableExecutorUtils {
                 for (int i = 0; i < size; i++) {
                     // take 方法等待下一个结果并返回 Future 对象。
                     // poll 不等待，有结果就返回一个 Future 对象，否则返回 null。
-                    Future<T> future = completionServcie.take();
+                    Future<T> future = (Future<T>)completionServcie.take();
                     list.add(future.get());
                 }
             } catch (InterruptedException e) {
