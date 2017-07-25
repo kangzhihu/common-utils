@@ -333,8 +333,7 @@ public class DateUtils {
 
     public static boolean isTomorrow(Date date) {
         if(date==null) return false;
-        if(formatDate(addTime(new Date(), 1, 0, 0, 0)).equals(formatDate(date))) return true;
-        return false;
+        return formatDate(addTime(new Date(), 1, 0, 0, 0)).equals(formatDate(date));
     }
 
     private static int[] chweek = new int[]{0,7,1,2,3,4,5,6};
@@ -499,10 +498,7 @@ public class DateUtils {
      */
     public static boolean isAfter(Date date){
         if(date == null) return false;
-        if(date.after(new Date())){
-            return true;
-        }
-        return false;
+        return date.after(new Date());
     }
     /**
      * 获取date所在月份，date日期之后（或等于）的周，星期为weektype的所有日期
@@ -779,10 +775,7 @@ public class DateUtils {
     }
     public static boolean isAfterOneHour(Date date,String time){
         String datetime = formatDate(date)+" "+time+":00";
-        if(addTime(parseTimestamp(datetime),TYPE_HOUR, -1).after(getMillTimestamp())){
-            return true;
-        }
-        return false;
+        return addTime(parseTimestamp(datetime), TYPE_HOUR, -1).after(getMillTimestamp());
     }
     public static boolean isValidDate(String fyrq) {
         return DateUtils.parseDate(fyrq)!=null;
