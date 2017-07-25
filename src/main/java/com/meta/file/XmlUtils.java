@@ -66,7 +66,7 @@ public class XmlUtils {
         try {
             document = reader.read(new CharArrayReader(xml.toCharArray()));
         } catch (DocumentException e) {
-            logger.error(e.getMessage());;
+            logger.error(e.getMessage());
         }
         return document;
     }
@@ -150,7 +150,7 @@ public class XmlUtils {
                 }
             }
         } catch (DocumentException e1) {
-            logger.warn(e1.getMessage());;
+            logger.warn(e1.getMessage());
         }
         return map;
     }

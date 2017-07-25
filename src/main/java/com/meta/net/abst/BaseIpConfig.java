@@ -19,7 +19,7 @@ public abstract class BaseIpConfig {
     private static final String serverIp;
     static {
         searchList = new ArrayList<String>();
-        searchList.addAll(Arrays.asList(new String[]{"192.168.31."}));//对搜索列表进行扩展，可控制IP获取范围，参与特定环境范围下逻辑判断
+        searchList.addAll(Arrays.asList("192.168.31."));//对搜索列表进行扩展，可控制IP获取范围，参与特定环境范围下逻辑判断
         String[] host = BaseIpConfig.getServerAddr();
         serverIp = host[0];
     }

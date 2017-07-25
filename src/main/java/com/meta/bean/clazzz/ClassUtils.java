@@ -135,7 +135,7 @@ public class ClassUtils {
         // SHOULD sit in a package, so a length check is worthwhile.
         if (name != null && name.length() <= 8) {
             // Could be a primitive - likely.
-            result = (Class<?>) primitiveTypeNameMap.get(name);
+            result = primitiveTypeNameMap.get(name);
         }
         return result;
     }
@@ -169,10 +169,10 @@ public class ClassUtils {
 
         Set<Class<?>> primitiveTypeNames = new HashSet<Class<?>>(16);
         primitiveTypeNames.addAll(primitiveWrapperTypeMap.values());
-        primitiveTypeNames.addAll(Arrays.asList(new Class<?>[] { boolean[].class, byte[].class, char[].class,
-                double[].class, float[].class, int[].class, long[].class, short[].class }));
+        primitiveTypeNames.addAll(Arrays.asList(boolean[].class, byte[].class, char[].class,
+                double[].class, float[].class, int[].class, long[].class, short[].class));
         for (Iterator<Class<?>> it = primitiveTypeNames.iterator(); it.hasNext();) {
-            Class<?> primitiveClass = (Class<?>) it.next();
+            Class<?> primitiveClass = it.next();
             primitiveTypeNameMap.put(primitiveClass.getName(), primitiveClass);
         }
     }

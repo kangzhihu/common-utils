@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class ClassGenerator {
 
-    public static interface DC{} // dynamic class tag interface.
+    public interface DC{} // dynamic class tag interface.
 
     private static final AtomicLong CLASS_NAME_COUNTER = new AtomicLong(0);
 

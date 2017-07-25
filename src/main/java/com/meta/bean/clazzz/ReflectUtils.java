@@ -845,7 +845,7 @@ public final class ReflectUtils {
     public static Constructor<?> findConstructor(Class<?> clazz, Class<?> paramType) throws NoSuchMethodException {
         Constructor<?> targetConstructor;
         try {
-            targetConstructor = clazz.getConstructor(new Class<?>[] { paramType });
+            targetConstructor = clazz.getConstructor(paramType);
         } catch (NoSuchMethodException e) {
             targetConstructor = null;
             Constructor<?>[] constructors = clazz.getConstructors();
