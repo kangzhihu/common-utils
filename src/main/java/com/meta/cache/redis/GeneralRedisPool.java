@@ -1,6 +1,5 @@
 package com.meta.cache.redis;
 
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
@@ -12,12 +11,12 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 public abstract class GeneralRedisPool {
 
-    protected static String redisHosts = "127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381";
-    protected static String prefix = "dev";//环境
-    protected static int maxTotal=10;
-    protected static int maxIdle=5;
-    protected static int minIdle=1;
-    protected static int maxWait=5000;
+    protected static String redisHosts;
+    protected static String prefix;//环境
+    protected static int maxTotal;
+    protected static int maxIdle;
+    protected static int minIdle;
+    protected static int maxWait;
 
     protected static JedisPoolConfig poolConfig;
 
