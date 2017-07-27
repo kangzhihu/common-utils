@@ -38,7 +38,7 @@ public class RedisPools extends GeneralRedisPool{
     private static final transient Logger logger = LoggerFactory.getLogger(RedisPools.class);
     private String[] hosts;
     private int point;
-    private static RedisPools redisPools = null;
+    private static volatile RedisPools redisPools = null;
     private ConcurrentHashMap<String, JedisPool> poolMap;
 
     public static RedisPools getInstance() {

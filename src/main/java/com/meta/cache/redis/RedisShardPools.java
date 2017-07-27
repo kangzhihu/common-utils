@@ -40,7 +40,7 @@ public class RedisShardPools extends GeneralRedisPool {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisShardPools.class);
     private static String[] hosts;
-    private static ShardedJedisPool redisPool = null;
+    private static volatile ShardedJedisPool redisPool = null;
     private static List<JedisShardInfo> jdsInfoList = null;
 
     private RedisShardPools() {
