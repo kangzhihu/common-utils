@@ -100,4 +100,15 @@ public class RedisUtils {
             jedis.close();
         }
     }
+
+    //region  RebuildClient
+    public static RedisRebuildClient getRedisRebuildClient(String key) {
+        try {
+            JedisPool pool = RedisPools.getInstance().getHashPool(key);
+            return new RedisRebuildClient(pool, 0, RedisPools.prefix + key);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+    }
 }
