@@ -41,7 +41,7 @@ public class RedisUtils {
     public static RedisClient getRedisClient(String key) {
         try {
             JedisPool pool = RedisPools.getInstance().getHashPool(key);
-            return new RedisClient(pool, 0, RedisPools.prefix + key);
+            return new RedisClient(pool.getResource(), 0, RedisPools.prefix + key);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -51,7 +51,7 @@ public class RedisUtils {
     public static RedisClient getAnyoneJedis(String key) {
         try {
             JedisPool pool = RedisPools.getInstance().getAnyPool();
-            return new RedisClient(pool, 0, key);
+            return new RedisClient(pool.getResource(), 0, key);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -63,7 +63,7 @@ public class RedisUtils {
         Iterator iterator = RedisPools.getInstance().getJedisPools().values().iterator();
 
         while(iterator.hasNext()) {
-            RedisClients.add(new RedisClient((JedisPool)iterator.next(), 0, RedisPools.prefix + key));
+            RedisClients.add(new RedisClient(((JedisPool)iterator.next()).getResource(), 0, RedisPools.prefix + key));
         }
 
         return RedisClients;
@@ -72,7 +72,7 @@ public class RedisUtils {
     public static RedisClient getRedisClientByHost(String key, String host) {
         try {
             JedisPool pool = RedisPools.getInstance().getHostPool(host);
-            return new RedisClient(pool, 0, RedisPools.prefix + key);
+            return new RedisClient(pool.getResource(), 0, RedisPools.prefix + key);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -82,7 +82,7 @@ public class RedisUtils {
     public static RedisClient getRedisClientByDb(String key, int db) {
         try {
             JedisPool pool = RedisPools.getInstance().getHashPool(key);
-            return new RedisClient(pool, db, RedisPools.prefix + key);
+            return new RedisClient(pool.getResource(), db, RedisPools.prefix + key);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -105,7 +105,7 @@ public class RedisUtils {
     public static RedisRebuildClient getRedisRebuildClient(String key) {
         try {
             JedisPool pool = RedisPools.getInstance().getHashPool(key);
-            return new RedisRebuildClient(pool, 0, RedisPools.prefix + key);
+            return new RedisRebuildClient(pool.getResource(), 0, RedisPools.prefix + key);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;

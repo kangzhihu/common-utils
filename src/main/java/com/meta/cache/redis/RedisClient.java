@@ -3,7 +3,6 @@ package com.meta.cache.redis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
@@ -18,7 +17,6 @@ import java.util.*;
  */
 public class RedisClient {
     Logger logger = LoggerFactory.getLogger(RedisClient.class);
-    private JedisPool pool;
     private Jedis jedis;
     private String key;
 
@@ -31,7 +29,6 @@ public class RedisClient {
         } finally {
             RedisUtils.close(this.jedis);
         }
-
         return "";
     }
 
@@ -991,9 +988,8 @@ public class RedisClient {
     public RedisClient() {
     }
 
-    public RedisClient(JedisPool pool, int db, String key) {
-        this.pool = pool;
-        this.jedis = pool.getResource();
+    public RedisClient(Jedis jedis, int db, String key) {
+        this.jedis = jedis;
         this.jedis.select(db);
         this.key = key;
     }
@@ -1014,11 +1010,4 @@ public class RedisClient {
         this.key = key;
     }
 
-    public JedisPool getPool() {
-        return this.pool;
-    }
-
-    public void setPool(JedisPool pool) {
-        this.pool = pool;
-    }
 }

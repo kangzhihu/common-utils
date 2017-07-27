@@ -2,6 +2,7 @@ package com.meta.cache.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ShardedJedis;
 
 /**
@@ -28,18 +29,31 @@ public class RedisShardUtils {
     public RedisShardUtils() {
     }
 
-    public static ShardedJedis getRedisClient() {
+    public static RedisClient getRedisClient(String key) {
         try {
-            return RedisShardPools.getInstance().getResource();
+            ShardedJedis shardedJedis = RedisShardPools.getInstance().getResource();
+            return new RedisClient(shardedJedis.getShard(key),DB_ZERO,RedisPools.prefix +key);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
         }
     }
 
-    public static void close(ShardedJedis jedis) {
+    public static void close(Jedis jedis) {
         if(jedis != null){
             jedis.close();
         }
     }
+
+    //region  RebuildClient
+    public static RedisRebuildClient getRedisRebuildClient(String key) {
+        try {
+            ShardedJedis shardedJedis = RedisShardPools.getInstance().getResource();
+            return new RedisRebuildClient(shardedJedis.getShard(key),DB_ZERO,RedisPools.prefix + key);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
 }

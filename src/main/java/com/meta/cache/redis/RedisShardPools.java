@@ -1,6 +1,5 @@
 package com.meta.cache.redis;
 
-import com.meta.common.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisShardInfo;
@@ -12,7 +11,6 @@ import redis.clients.util.Sharded;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Author: zhihu.kang<br/>
