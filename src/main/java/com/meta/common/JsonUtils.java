@@ -26,10 +26,6 @@ import java.util.Map;
  * Descriptions:对象序列化与反序列化工具类，pojo对象必须有getter对象才能正常反序列化
  */
 
-/**
- * add JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
- *
- */
 public class JsonUtils {
     private static final transient Logger dbLogger = LoggerFactory.getLogger(JsonUtils.class);
 
