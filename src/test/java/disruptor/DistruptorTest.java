@@ -308,7 +308,10 @@ public class DistruptorTest {
     @Test
     public void testMoreProcedureMoreWorkerPoolInPipeline() throws Exception{
 
-        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        //为何这种创建方式也可以？？？
+        //final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+
+        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createMultiProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
         SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
 
