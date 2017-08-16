@@ -5,6 +5,7 @@
   <groupId>com.kang</groupId>
   <artifactId>utils</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
   <!-- 全局配置变量-->
   <properties>
@@ -12,8 +13,6 @@
     <kotlin.version>1.0.5-2</kotlin.version>
     <batik.version>1.9</batik.version>
   </properties>
-
-  <packaging>pom</packaging>
 
   <dependencies>
     <!-- logback

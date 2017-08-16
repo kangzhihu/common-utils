@@ -5,7 +5,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.Striped;
-import com.sun.istack.internal.NotNull;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -40,7 +39,7 @@ public class GuavaCacheUtils {
      * @param key
      * @return
      */
-    public static ReadWriteLock getReadWriteLock(@NotNull String key) throws NullPointerException{
+    public static ReadWriteLock getReadWriteLock(String key) throws NullPointerException{
         if(key==null || "".equals(key)) throw new NullPointerException("readwrite lock key can't be empty or null!");
         return rwStriped.get(key);
     }
@@ -53,7 +52,7 @@ public class GuavaCacheUtils {
      * @param key
      * @return
      */
-    public static Lock getLock(@NotNull String key) throws NullPointerException{
+    public static Lock getLock(String key) throws NullPointerException{
         if(key==null || "".equals(key)) throw new NullPointerException("lock key can't be empty or null!");
         return striped.get(key);
     }
@@ -62,7 +61,7 @@ public class GuavaCacheUtils {
      * 释放锁
      * @param lock
      */
-    public static void unLock(@NotNull Lock lock){
+    public static void unLock( Lock lock){
         if(lock!=null)lock.unlock();
     }
     
