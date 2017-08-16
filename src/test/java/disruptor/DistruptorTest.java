@@ -4,8 +4,8 @@ import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.EventHandlerGroup;
 import com.lmax.disruptor.dsl.ProducerType;
+import disruptor.model.ObjectEvent;
 import disruptor.workerpool.EventWorkerHandler;
-import disruptor.model.MyEvent;
 import org.junit.Test;
 
 import java.util.Random;
@@ -22,18 +22,19 @@ public class DistruptorTest {
     @Test
     public void testUseDisruptor() throws Exception{
         //创建disruptor
-        Disruptor<MyEvent<String>> disruptor = new Disruptor<MyEvent<String>>(new MyEventFactory(), BUFFER_SIZE, new MyEventThreadFactory(), ProducerType.SINGLE, new BusySpinWaitStrategy());
+        Disruptor<ObjectEvent<String>> disruptor = new Disruptor<ObjectEvent<String>>(new MyEventFactory(), BUFFER_SIZE, new MyEventThreadFactory(), ProducerType.SINGLE, new BusySpinWaitStrategy());
 
         // 注册事件消费处理器, 也即消费者.
         // 以消费组的形式来处理消息
-        EventHandlerGroup<MyEvent<String>> handlerGroup = disruptor.handleEventsWith(new MyEventHandler<String>(), new MyEventHandler1<String>());
-        //声明在C1,C2完事之后执行C3
-        handlerGroup.then(new MyEventHandler2<String>());
+        EventHandlerGroup<ObjectEvent<String>> handlerGroup = disruptor.handleEventsWith(new MyEventHandler<String>(), new MyEventHandler1<String>());
+        //声明在C1,C2完事之后执行C3,最后可启动一个清理Handler去处理最后的数据
+        handlerGroup.then(new MyEventHandler2<String>()).then(new ClearingEventHandler<String>());
+
         // 启动
         disruptor.start();
 
         //2.将数据装入RingBuffer
-        RingBuffer<MyEvent<String>> ringBuffer = disruptor.getRingBuffer();
+        RingBuffer<ObjectEvent<String>> ringBuffer = disruptor.getRingBuffer();
         // 创建生产者
         EventProducer<String> producer = new EventProducer<>(ringBuffer);
         Random random = new Random();
@@ -41,7 +42,7 @@ public class DistruptorTest {
         for(int i = 0; i < 2; ++i){
             producer.onData("test**"+random.nextInt(20));
         }
-
+        Thread.sleep(5000); //测试，让运行完毕
         disruptor.shutdown(); //关闭 disruptor  阻塞直至所有事件都得到处理
         executor.shutdown(); // 需关闭 disruptor使用的线程池, 上一步disruptor关闭时不会连带关闭线程池
     }
@@ -55,14 +56,14 @@ public class DistruptorTest {
         // 第一个参数为EventFactory，产生数据Trade的工厂类
         // 第二个参数是RingBuffer的大小，需为2的N次方
         // 第三个参数是WaitStrategy, 消费者阻塞时如何等待生产者放入Event
-        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        final RingBuffer<ObjectEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
         //SequenceBarrier, 协调消费者与生产者, 消费者链的先后顺序. 阻塞后面的消费者(没有Event可消费时)
         SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
 
         //创建事件处理器 (消费者): 处理ringBuffer, 用MyEventHandler的方法处理(实现EventHandler), 用sequenceBarrier协调生成-消费
         //如果存在多个消费者(老api, 可用workpool解决) 那重复执行 创建事件处理器-注册进度-提交消费者的过程, 把其中TradeHandler换成其它消费者类
-        BatchEventProcessor<MyEvent<String>> processor = new BatchEventProcessor<MyEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler());
+        BatchEventProcessor<ObjectEvent<String>> processor = new BatchEventProcessor<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler());
         //把消费者的消费进度情况注册给RingBuffer结构(生产者)    !如果只有一个消费者的情况可以省略
         ringBuffer.addGatingSequences(processor.getSequence());
 
@@ -91,19 +92,19 @@ public class DistruptorTest {
     @Test
     public void testThreeEventProcessorWithDependency() throws Exception{
 
-        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        final RingBuffer<ObjectEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
         // *** 消费者1
         SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
-        BatchEventProcessor<MyEvent<String>> processor = new BatchEventProcessor<MyEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler());
+        BatchEventProcessor<ObjectEvent<String>> processor = new BatchEventProcessor<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler());
 
         // *** 消费者2
         SequenceBarrier sequenceBarrier1 = ringBuffer.newBarrier(processor.getSequence());
-        BatchEventProcessor<MyEvent<String>> processor1 = new BatchEventProcessor<MyEvent<String>>(ringBuffer, sequenceBarrier1, new MyEventHandler1());
+        BatchEventProcessor<ObjectEvent<String>> processor1 = new BatchEventProcessor<ObjectEvent<String>>(ringBuffer, sequenceBarrier1, new MyEventHandler1());
 
         // *** 消费者3
         SequenceBarrier sequenceBarrier2 = ringBuffer.newBarrier(processor1.getSequence());
-        BatchEventProcessor<MyEvent<String>> processor2 = new BatchEventProcessor<MyEvent<String>>(ringBuffer, sequenceBarrier2, new MyEventHandler2());
+        BatchEventProcessor<ObjectEvent<String>> processor2 = new BatchEventProcessor<ObjectEvent<String>>(ringBuffer, sequenceBarrier2, new MyEventHandler2());
 
         //构造反向依赖，依赖最小(晚)的Sequences
         ringBuffer.addGatingSequences(processor2.getSequence());
@@ -132,19 +133,19 @@ public class DistruptorTest {
     @Test
     public void testThreeEventProcessorWithOutDependency() throws Exception{
 
-        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        final RingBuffer<ObjectEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
         // *** 消费者1
         SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
-        BatchEventProcessor<MyEvent<String>> processor = new BatchEventProcessor<MyEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler());
+        BatchEventProcessor<ObjectEvent<String>> processor = new BatchEventProcessor<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler());
 
         // *** 消费者2
         SequenceBarrier sequenceBarrier1 = ringBuffer.newBarrier(processor.getSequence());
-        BatchEventProcessor<MyEvent<String>> processor1 = new BatchEventProcessor<MyEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler1());
+        BatchEventProcessor<ObjectEvent<String>> processor1 = new BatchEventProcessor<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler1());
 
         // *** 消费者3
         SequenceBarrier sequenceBarrier2 = ringBuffer.newBarrier(processor1.getSequence());
-        BatchEventProcessor<MyEvent<String>> processor2 = new BatchEventProcessor<MyEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler2());
+        BatchEventProcessor<ObjectEvent<String>> processor2 = new BatchEventProcessor<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new MyEventHandler2());
 
         //构造反向依赖，依赖最小(晚)的Sequences
         ringBuffer.addGatingSequences(processor.getSequence(),processor1.getSequence(),processor2.getSequence());
@@ -173,19 +174,19 @@ public class DistruptorTest {
     @Test
     public void testOneWorkerPool() throws Exception{
 
-        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        final RingBuffer<ObjectEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
         SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
 
         // 第三个参数: 异常处理器, 这里用ExceptionHandler; 第四个参数必须为实现WorkHandler的处理类, 可为数组(即传入多个相同的消费者)
-        WorkerPool<MyEvent<String>> workerPool = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new MyExceptionHandler(), new EventWorkerHandler<String>("single"));
+        WorkerPool<ObjectEvent<String>> workerPool = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new MyExceptionHandler(), new EventWorkerHandler<String>("single"));
 
         //消费组
  /*       final WorkHandler[] handlers = new EventWorkerHandler[2];
         for(int i=0;i<2;i++){
             handlers[i] = new EventWorkerHandler("precessor-"+i);
         }
-        WorkerPool<MyEvent<String>> workerPool = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers);
+        WorkerPool<ObjectEvent<String>> workerPool = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers);
 */
         //一个消费组的时候貌似可以省略
         ringBuffer.addGatingSequences(workerPool.getWorkerSequences());
@@ -210,29 +211,29 @@ public class DistruptorTest {
     @Test
     public void testMoreWorkerPool() throws Exception{
 
-        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        final RingBuffer<ObjectEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
         SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
 
        /*   // 第三个参数: 异常处理器, 这里用ExceptionHandler; 第四个参数必须为实现WorkHandler的处理类, 可为数组(即传入多个相同的消费者)
-        WorkerPool<MyEvent<String>> workerPool = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool one"));
+        WorkerPool<ObjectEvent<String>> workerPool = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool one"));
 
         // 第三个参数: 异常处理器, 这里用ExceptionHandler; 第四个参数必须为实现WorkHandler的处理类, 可为数组(即传入多个相同的消费者)
-        WorkerPool<MyEvent<String>> workerPool1 = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool two"));
+        WorkerPool<ObjectEvent<String>> workerPool1 = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool two"));
         */
         //消费组
         final WorkHandler[] handlers = new EventWorkerHandler[2];
         for(int i=0;i<2;i++){
             handlers[i] = new EventWorkerHandler("worker pool one-"+i);
         }
-        WorkerPool<MyEvent<String>> workerPool = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers);
+        WorkerPool<ObjectEvent<String>> workerPool = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers);
 
         //消费组
         final WorkHandler[] handlers1 = new EventWorkerHandler[2];
         for(int i=0;i<2;i++){
             handlers1[i] = new EventWorkerHandler("worker pool two-"+i);
         }
-        WorkerPool<MyEvent<String>> workerPool1 = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers1);
+        WorkerPool<ObjectEvent<String>> workerPool1 = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers1);
 
         ringBuffer.addGatingSequences(workerPool.getWorkerSequences());
         ringBuffer.addGatingSequences(workerPool1.getWorkerSequences());
@@ -258,22 +259,22 @@ public class DistruptorTest {
     @Test
     public void testMoreWorkerPoolInPipeline() throws Exception{
 
-        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        final RingBuffer<ObjectEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
         SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
 
        /*   // 第三个参数: 异常处理器, 这里用ExceptionHandler; 第四个参数必须为实现WorkHandler的处理类, 可为数组(即传入多个相同的消费者)
-        WorkerPool<MyEvent<String>> workerPool = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool one"));
+        WorkerPool<ObjectEvent<String>> workerPool = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool one"));
 
         // 第三个参数: 异常处理器, 这里用ExceptionHandler; 第四个参数必须为实现WorkHandler的处理类, 可为数组(即传入多个相同的消费者)
-        WorkerPool<MyEvent<String>> workerPool1 = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool two"));
+        WorkerPool<ObjectEvent<String>> workerPool1 = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool two"));
         */
         //消费组
         final WorkHandler[] handlers = new EventWorkerHandler[2];
         for(int i=0;i<2;i++){
             handlers[i] = new EventWorkerHandler("worker pool one-"+i);
         }
-        WorkerPool<MyEvent<String>> workerPool = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers);
+        WorkerPool<ObjectEvent<String>> workerPool = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers);
 
         SequenceBarrier sequenceBarrier1 = ringBuffer.newBarrier(workerPool.getWorkerSequences());
         //消费组
@@ -281,7 +282,7 @@ public class DistruptorTest {
         for(int i=0;i<2;i++){
             handlers1[i] = new EventWorkerHandler("worker pool two-"+i);
         }
-        WorkerPool<MyEvent<String>> workerPool1 = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier1, new IgnoreExceptionHandler(), handlers1);
+        WorkerPool<ObjectEvent<String>> workerPool1 = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier1, new IgnoreExceptionHandler(), handlers1);
 
         //依赖最近序列
         ringBuffer.addGatingSequences(workerPool1.getWorkerSequences());
@@ -309,24 +310,24 @@ public class DistruptorTest {
     public void testMoreProcedureMoreWorkerPoolInPipeline() throws Exception{
 
         //为何这种创建方式也可以？？？
-        //final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        //final RingBuffer<ObjectEvent<String>> ringBuffer = RingBuffer.createSingleProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
-        final RingBuffer<MyEvent<String>> ringBuffer = RingBuffer.createMultiProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
+        final RingBuffer<ObjectEvent<String>> ringBuffer = RingBuffer.createMultiProducer(new MyEventFactory(), BUFFER_SIZE, new YieldingWaitStrategy());
 
         SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
 
        /*   // 第三个参数: 异常处理器, 这里用ExceptionHandler; 第四个参数必须为实现WorkHandler的处理类, 可为数组(即传入多个相同的消费者)
-        WorkerPool<MyEvent<String>> workerPool = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool one"));
+        WorkerPool<ObjectEvent<String>> workerPool = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool one"));
 
         // 第三个参数: 异常处理器, 这里用ExceptionHandler; 第四个参数必须为实现WorkHandler的处理类, 可为数组(即传入多个相同的消费者)
-        WorkerPool<MyEvent<String>> workerPool1 = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool two"));
+        WorkerPool<ObjectEvent<String>> workerPool1 = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), new EventWorkerHandler<String>("worker pool two"));
         */
         //消费组
         final WorkHandler[] handlers = new EventWorkerHandler[2];
         for(int i=0;i<2;i++){
             handlers[i] = new EventWorkerHandler("worker pool one-"+i);
         }
-        WorkerPool<MyEvent<String>> workerPool = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers);
+        WorkerPool<ObjectEvent<String>> workerPool = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), handlers);
 
         SequenceBarrier sequenceBarrier1 = ringBuffer.newBarrier(workerPool.getWorkerSequences());
         //消费组
@@ -334,7 +335,7 @@ public class DistruptorTest {
         for(int i=0;i<2;i++){
             handlers1[i] = new EventWorkerHandler("worker pool two-"+i);
         }
-        WorkerPool<MyEvent<String>> workerPool1 = new WorkerPool<MyEvent<String>>(ringBuffer, sequenceBarrier1, new MyExceptionHandler(), handlers1);
+        WorkerPool<ObjectEvent<String>> workerPool1 = new WorkerPool<ObjectEvent<String>>(ringBuffer, sequenceBarrier1, new MyExceptionHandler(), handlers1);
 
         //依赖最近序列
         ringBuffer.addGatingSequences(workerPool1.getWorkerSequences());
