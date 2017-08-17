@@ -56,14 +56,11 @@ public class CallableExecutorUtils {
     private void init() {
         executor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize,
                 keepAliveTime, timeUnit, workQueue, handler);
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                if (executor != null) {
-                    executor.shutdown();
-                }
+        Runtime.getRuntime().addShutdownHook(new Thread(()->{
+            if (executor != null) {
+                executor.shutdown();
             }
-        });
+        }));
         completionServcie = new ExecutorCompletionService(executor);
     }
 

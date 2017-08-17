@@ -41,18 +41,16 @@ public class GeneralHttpClientUtils {
 
     static {
         httpClient = GeneralHttpClientConfiguration.getHttpClientConfiguration().getHttpClientBuilder().build();
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
+        Runtime.getRuntime().addShutdownHook(new Thread(()->{
+            if (httpClient != null) {
                 try {
-                    if (httpClient != null) {
-                        httpClient.close();
-                        logger.warn("JVM shutdown,closing httpClient..");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    httpClient.close();
+                } catch (IOException e) {
+                    logger.error("JVM shutdown,excption:{}",e.getMessage());
                 }
+                logger.warn("JVM shutdown,closing httpClient..");
             }
-        });
+        }));
     }
 
     /**

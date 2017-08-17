@@ -80,11 +80,11 @@ class Listner implements Runnable {
             while (true) {
                 WatchKey watchKey = service.take();
                 List<WatchEvent<?>> watchEvents = watchKey.pollEvents();
-                for (WatchEvent<?> event : watchEvents) {
+                watchEvents.forEach(event->{
                     if(eventMap !=null && eventMap.containsKey(event.kind())){
                         eventMap.get(event.kind()).accept(event);
                     }
-                }
+                });
                 watchKey.reset();
             }
         } catch (InterruptedException e) {
