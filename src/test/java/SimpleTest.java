@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 public class SimpleTest {
     private static final transient Logger logger = LoggerFactory.getLogger(SimpleTest.class);
     private static int index = 0;
+
     @Test
     public void testMethod() throws Exception{
 
