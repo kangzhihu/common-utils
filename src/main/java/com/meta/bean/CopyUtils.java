@@ -76,7 +76,7 @@ public class CopyUtils {
         try {
             Wrapper srcWrapper = Wrapper.getWrapper(src.getClass());
             Wrapper destWrapper = Wrapper.getWrapper(clazz);
-            S itemVo = (S) destWrapper.gainNewInstance();
+            S itemVo = (S) destWrapper.gainNewInstance(); //这句怎么起作用的？断点没进去。。  class.newInstance();
             List<String> props = getJoinProperties(srcWrapper.getReadPropertyNames(), src.getClass(), clazz);
             copyInternal(itemVo, src, srcWrapper, destWrapper, props);
             return itemVo;
