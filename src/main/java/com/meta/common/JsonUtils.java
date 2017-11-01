@@ -268,5 +268,16 @@ public class JsonUtils {
         Map<String, String> info = readJsonToMap(json);
         return info.get(key);
     }
+    
+    public static boolean isJson(String str) {
+        if (StringUtils.isBlank(str)) {
+            return false;
+        }
+        String trim = str.trim();
+        if ((trim.charAt(0) == '{' && str.charAt(trim.length() - 1) == '}')) {
+            return true;
+        }
+        return false;
+    }
 
 }
