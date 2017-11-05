@@ -1,4 +1,4 @@
-package com.meta.common.util;
+package com.meta.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -61,6 +61,7 @@ public class XmlUtil {
         String string = xml.writeValueAsString(bean);
         return string;
     }
+
 
 
     public static class JacksonMapper {
