@@ -1,4 +1,4 @@
-package com.meta.common;
+package com.meta.bean;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -13,7 +13,7 @@ import java.io.InputStream;
  * 通用方法，用于转换xml到bean，或者bean 到xml
  *
  */
-public class XmlUtil {
+public class XmlBeanUtils {
     
     /**
      * XML To Object

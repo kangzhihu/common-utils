@@ -1,6 +1,5 @@
-package com.meta.io;
+package com.meta.io.resource;
 
-import com.meta.io.resource.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -13,7 +12,7 @@ import java.io.InputStream;
  * Data: 2017-11-05&nbsp;17:34<br/>
  * Email: kangzhihu@163.com<br/>
  * Description:<br/>
- * &nbsp;&nbsp;&nbsp;&nbsp;xml文件解析器<br/><br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;xml文件解析器,非SAX解析方式<br/><br/>
  */
 public class XmlDocumentReader {
 

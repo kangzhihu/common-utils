@@ -19,7 +19,7 @@ import java.util.*;
  * Data: 2017/6/17 1:22<br/>
  * Email: kangzhihu@163.com<br/>
  * Description:<br/>
- * &nbsp;&nbsp;&nbsp;&nbsp;XML工具类<br/><br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;XML文件操作工具类<br/><br/>
  */
 
 public class XmlUtils {
