@@ -17,7 +17,7 @@ import java.util.Map;
  * Description:<br/>
  * &nbsp;&nbsp;&nbsp;&nbsp;注解校验工具类<br/><br/>
  */
-public class AbstractValidatorUtil {
+public class ValidatorUtil {
 
     /**
      * 注解校验器的Map映射
