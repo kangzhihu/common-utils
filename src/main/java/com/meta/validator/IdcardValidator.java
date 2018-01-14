@@ -1,4 +1,4 @@
-package com.meta.validate;
+package com.meta.validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

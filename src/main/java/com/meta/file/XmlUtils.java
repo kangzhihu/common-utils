@@ -1,5 +1,6 @@
 package com.meta.file;
 
+import com.meta.io.resource.XmlDocumentReader;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
@@ -20,6 +21,7 @@ import java.util.*;
  * Email: kangzhihu@163.com<br/>
  * Description:<br/>
  * &nbsp;&nbsp;&nbsp;&nbsp;XML文件操作工具类<br/><br/>
+ * 另一个解析工具{@link XmlDocumentReader}以根节点问起点进行解析
  */
 
 public class XmlUtils {
@@ -89,7 +91,8 @@ public class XmlUtils {
     public static String getNodeText(String xml, String xpath){
         return getNodeText(getDocument(xml), xpath);
     }
-    /**
+
+    /**xpath方式解析节点数据
      * @param document
      * @param xpath
      * @return
