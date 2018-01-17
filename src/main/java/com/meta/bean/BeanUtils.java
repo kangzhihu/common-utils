@@ -99,30 +99,4 @@ public class BeanUtils {
         return newList;
     }
 
-    /**
-     * 获取对象List的Map<unionField,Bean>格式的数据
-     * @param beanList
-     * @param unionField 唯一属性名
-     * @param <K> unionField值类型
-     *  @param <V> Bean类型
-     * @return
-     */
-    public static <K, V> Map<K, V> getBeanListMap(List<V> beanList, String unionField) {
-        Map<K, V> map = new HashMap<>();
-        if (beanList == null || beanList.isEmpty()) {
-            return map;
-        }
-        beanList.stream().forEach((bean) -> {
-            try {
-                Map tmap = org.apache.commons.beanutils.BeanUtils.describe(bean);
-                if (tmap.get(unionField) != null) {
-                    map.put((K) tmap.get(unionField), bean);
-                }
-            } catch (Exception e) {
-                logger.error("unexpected exception on bean operation!");
-            }
-        });
-        return map;
-    }
-
 }
