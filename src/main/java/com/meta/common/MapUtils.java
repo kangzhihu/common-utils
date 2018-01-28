@@ -1,7 +1,19 @@
+package com.meta.common;
 
-    public class MapUtils{
-    
-      /**
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MapUtils {
+    private static final transient Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+
+    /**
      * 获取对象List的Map<unionField,Bean>格式的数据
      * @param beanList
      * @param unionField 唯一属性名
@@ -26,7 +38,8 @@
         });
         return map;
     }
-       /**
+
+    /**
      * 获取简单list bean同key多value类型map
      * @param beanList
      * @param filed bean属性字段
@@ -81,4 +94,4 @@
         }
         return beanMultimap;
     }
-    }
+}
