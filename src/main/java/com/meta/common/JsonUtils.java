@@ -29,6 +29,11 @@ import java.util.Map;
 public class JsonUtils {
     private static final transient Logger dbLogger = LoggerFactory.getLogger(JsonUtils.class);
 
+    //temp add,need to check
+    public static <T> Map<String, T> jsonToMap(String json) {
+        return JSONObject.parseObject(json, new TypeReference<Map<String, T>>(){});
+    }
+    
     public static <T> T readJsonToObject(Class<T> clazz, String json) {
         if (StringUtils.isBlank(json)) {
             return null;
