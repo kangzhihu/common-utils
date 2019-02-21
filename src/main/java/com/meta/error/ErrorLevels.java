@@ -1,12 +1,12 @@
 package com.meta.error;
 
 /**
- * 错误类型常量池
+ * 错误级别常量池。
  * 
- * <p>对应于标准错误码的第5位
+ * <p>对应于标准错误码的第4位：
  *      <table border="1">
  *          <tr>
- *           <td><b>位置</b></td><td>1</td><td>2</td><td>3</td><td>4</td><td bgcolor="green">5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
+ *           <td><b>位置</b></td><td>1</td><td>2</td><td>3</td><td bgcolor="green">4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
  *          </tr>
  *          <tr>
  *           <td><b>示例</b></td><td>A</td><td>E</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>2</td><td>7</td>
@@ -16,15 +16,21 @@ package com.meta.error;
  *          </tr>
  *          </table>
  * 
+ * @author jiapeng.li
+ * @author anorld.zhangm
+ * @version $Id: ErrorTypes.java, v 0.1 2012-5-22 下午12:26:53 jiapeng.li Exp $
  */
-public interface ErrorTypes {
+public interface ErrorLevels {
 
-    /** 系统错误 */
-    public static final String SYSTEM      = "0";
+    /** INFO级别 */
+    public static final String INFO  = "1";
 
-    /** 业务错误 */
-    public static final String BIZ         = "1";
+    /** WARN级别 */
+    public static final String WARN  = "3";
 
-    /** 第三方错误 */
-    public static final String THIRD_PARTY = "2";
+    /** ERROR级别 */
+    public static final String ERROR = "5";
+
+    /** FATAL级别 */
+    public static final String FATAL = "7";
 }
