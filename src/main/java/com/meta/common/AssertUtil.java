@@ -11,8 +11,6 @@ import com.meta.exception.BaseException;
 /**
  * 断言工具类
  * 
- * @author feixun.dxf
- * @version $Id: AssertUtil.java, v 0.1 2016年1月21日 下午9:40:49 feixun.dxf Exp $
  */
 public class AssertUtil {
 
