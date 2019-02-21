@@ -1,4 +1,5 @@
 package com.meta.enum;
+import com.meta.error.ErrorLevels;
 
 /**
  * 错误明细码枚举
