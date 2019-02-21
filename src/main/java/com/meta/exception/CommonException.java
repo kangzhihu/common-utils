@@ -9,7 +9,7 @@ import com.meta.enum.ErrorDetailEnum;
  * 底层异常
  * 
  */
-public class TradeException extends RuntimeException {
+public class CommonException extends RuntimeException {
 
     /** serial UID */
     private static final long serialVersionUID = -7374117528802243686L;
@@ -25,65 +25,65 @@ public class TradeException extends RuntimeException {
      * 
      * @param code 错误码
      */
-    public TradeException(ErrorDetailEnum code) {
+    public CommonException(ErrorDetailEnum code) {
         super(code.getDescription());
         this.code = code;
     }
 
     /**
-     * 创建一个<code>TradeException</code>
+     * 创建一个<code>CommonException</code>
      * 
      * @param code
      * @param errorContext
      */
-    public TradeException(ErrorDetailEnum code, ErrorContext errorContext) {
+    public CommonException(ErrorDetailEnum code, ErrorContext errorContext) {
         this(code);
         this.errorContext = errorContext;
     }
 
     /**
-     * 创建一个<code>TradeException</code>
+     * 创建一个<code>CommonException</code>
      * 
      * @param code 错误码
      * @param errorMessage 错误描述 
      */
-    public TradeException(ErrorDetailEnum code, String errorMessage) {
+    public CommonException(ErrorDetailEnum code, String errorMessage) {
         super(errorMessage);
         this.code = code;
     }
 
     /**
-     * 创建一个<code>TradeException</code>
+     * 创建一个<code>CommonException</code>
      * 
      * @param code 错误码
      * @param errorMessage 错误描述格式
      * @param params 错误描述参数
      */
-    public TradeException(ErrorDetailEnum code, String errorMessage, Object... params) {
+    public CommonException(ErrorDetailEnum code, String errorMessage, Object... params) {
         this(code, format(errorMessage, params));
     }
 
     /**
-     * 创建一个<code>TradeException</code>
+     * 创建一个<code>CommonException</code>
      *
      * @param code         错误码
      * @param errorContext 错误上下文
      * @param errorMessage 错误码
      */
-    public TradeException(ErrorDetailEnum code, ErrorContext errorContext, String errorMessage) {
+    public CommonException(ErrorDetailEnum code, ErrorContext errorContext, String errorMessage) {
         this(code, errorMessage);
         this.errorContext = errorContext;
     }
 
     /**
-     * 创建一个<code>TradeException</code>
+     * 创建一个<code>CommonException</code>
      *
      * @param code         错误码
      * @param errorContext 错误上下文
      * @param errorMessage 错误描述格式
      * @param params 错误描述参数
      */
-    public TradeException(ErrorDetailEnum code, ErrorContext errorContext, String errorMessage,
+    public CommonException(ErrorDetailEnum code, ErrorContext errorContext, String errorMessage,
                           Object... params) {
         this(code, errorContext, format(errorMessage, params));
     }
@@ -94,44 +94,44 @@ public class TradeException extends RuntimeException {
      * @param code 错误码
      * @param cause 异常
      */
-    public TradeException(ErrorDetailEnum code, Throwable cause) {
+    public CommonException(ErrorDetailEnum code, Throwable cause) {
         super(code.getDescription(), cause);
         this.code = code;
     }
 
     /**
-     * 创建一个<code>TradeException</code>
+     * 创建一个<code>CommonException</code>
      *
      * @param code         错误码
      * @param errorContext 错误上下文
      * @param cause        异常
      */
-    public TradeException(ErrorDetailEnum code, ErrorContext errorContext, Throwable cause) {
+    public CommonException(ErrorDetailEnum code, ErrorContext errorContext, Throwable cause) {
         this(code, cause);
         this.errorContext = errorContext;
     }
 
     /**
-     * 创建一个<code>TradeException</code>
+     * 创建一个<code>CommonException</code>
      * 
      * @param code         错误码
      * @param errorMessage 错误描述
      * @param cause        异常
      */
-    public TradeException(ErrorDetailEnum code, String errorMessage, Throwable cause) {
+    public CommonException(ErrorDetailEnum code, String errorMessage, Throwable cause) {
         super(errorMessage, cause);
         this.code = code;
     }
 
     /**
-     * 创建一个<code>TradeException</code>
+     * 创建一个<code>CommonException</code>
      * 
      * @param code         错误码
      * @param errorMessage 错误描述格式
      * @param cause        异常
      * @param params 错误描述参数
      */
-    public TradeException(ErrorDetailEnum code, String errorMessage, Throwable cause,
+    public CommonException(ErrorDetailEnum code, String errorMessage, Throwable cause,
                           Object... params) {
         this(code, format(errorMessage, params), cause);
     }
