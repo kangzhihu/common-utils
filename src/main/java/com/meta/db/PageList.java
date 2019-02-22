@@ -1,10 +1,16 @@
 package com.meta.db;
 
+import com.alibaba.common.lang.Paginator;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class PageList extends ArrayList {
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 3257568390985103409L;
+    private static final long serialVersionUID = 3256578390985103490L;
+    //分页器
     private Paginator paginator;
 
     /**
@@ -52,47 +58,5 @@ public class PageList extends ArrayList {
         if (paginator != null) {
             this.paginator = paginator;
         }
-    }
-
-    /**
-     * @deprecated use getPaginator() instead
-     */
-    public int getPageSize() {
-        return paginator.getItemsPerPage();
-    }
-
-    /**
-     * @deprecated use getPaginator() instead
-     */
-    public int getTotalItem() {
-        return paginator.getItems();
-    }
-
-    /**
-     * @deprecated use getPaginator() instead
-     */
-    public int getTotalPage() {
-        return paginator.getPages();
-    }
-
-    /**
-     * @deprecated use getPaginator() instead
-     */
-    public void setPageSize(int i) {
-        paginator.setItemsPerPage(i);
-    }
-
-    /**
-     * @deprecated use getPaginator() instead
-     */
-    public void setTotalItem(int i) {
-        paginator.setItems(i);
-    }
-
-    /**
-     * @deprecated use getPaginator() instead
-     */
-    public void setTotalPage(int i) {
-        setTotalItem(i * getPageSize());
     }
 }
