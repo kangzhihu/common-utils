@@ -5,7 +5,7 @@ import com.alibaba.common.lang.Paginator;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PageList extends ArrayList {
+public class PageList<E> extends ArrayList<E> {
     /**
      * Comment for <code>serialVersionUID</code>
      */
