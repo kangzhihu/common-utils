@@ -1,12 +1,11 @@
 package com.meta.common;
 
-import java.util.Collection;
-
-import org.apache.commons.collections.CollectionUtils;
-import com.alibaba.common.lang.MessageUtil;
-import com.alibaba.common.lang.StringUtil;
-import com.meta.enum.ErrorDetailEnum;
+import com.meta.enums.ErrorDetailEnum;
 import com.meta.exception.BaseException;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.Collection;
 
 /**
  * 断言工具类
@@ -334,7 +333,7 @@ public class AssertUtil {
      */
     public static void assertEmpty(String str, ErrorDetailEnum errCode,
                                    String errMsg) throws BaseException {
-        if (StringUtil.isNotEmpty(str)) {
+        if (StringUtils.isNotEmpty(str)) {
             throw new BaseException(errCode, errMsg);
         }
     }
@@ -363,7 +362,7 @@ public class AssertUtil {
      */
     public static void assertNotEmpty(String str, ErrorDetailEnum errCode,
                                       String errMsg) throws BaseException {
-        if (StringUtil.isEmpty(str)) {
+        if (StringUtils.isEmpty(str)) {
             throw new BaseException(errCode, errMsg);
         }
     }
@@ -392,7 +391,7 @@ public class AssertUtil {
      */
     public static void assertBlank(String str, ErrorDetailEnum errCode,
                                    String errMsg) throws BaseException {
-        if (StringUtil.isNotBlank(str)) {
+        if (StringUtils.isNotBlank(str)) {
             throw new BaseException(errCode, errMsg);
         }
     }
@@ -419,7 +418,7 @@ public class AssertUtil {
      * @throws BaseException
      */
     public static void assertNotBlank(String str, ErrorDetailEnum errCode) throws BaseException {
-        if (StringUtil.isBlank(str)) {
+        if (StringUtils.isBlank(str)) {
             throw new BaseException(errCode);
         }
     }
@@ -434,7 +433,7 @@ public class AssertUtil {
      */
     public static void assertNotBlank(String str, ErrorDetailEnum errCode,
                                       String errMsg) throws BaseException {
-        if (StringUtil.isBlank(str)) {
+        if (StringUtils.isBlank(str)) {
             throw new BaseException(errCode, errMsg);
         }
     }

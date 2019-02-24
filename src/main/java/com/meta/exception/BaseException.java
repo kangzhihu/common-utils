@@ -1,9 +1,7 @@
 package com.meta.exception;
 
-import com.alibaba.common.lang.MessageUtil;
-import com.alibaba.common.lang.StringUtil;
-import com.alipay.common.error.ErrorContext;
-import com.meta.enum.ErrorDetailEnum;
+import com.meta.common.MessageUtil;
+import com.meta.enums.ErrorDetailEnum;
 
 /**
  * 底层异常
@@ -18,7 +16,7 @@ public class BaseException extends RuntimeException {
     private ErrorDetailEnum   code             = ErrorDetailEnum.UNKNOWN_EXCEPTION;
 
     /** 错误上下文 */
-    private ErrorContext      errorContext;
+    //private ErrorContext      errorContext;
 
     /**
      * 创建一个<code>TradeException</code>
@@ -28,17 +26,6 @@ public class BaseException extends RuntimeException {
     public BaseException(ErrorDetailEnum code) {
         super(code.getDescription());
         this.code = code;
-    }
-
-    /**
-     * 创建一个<code>BaseException</code>
-     * 
-     * @param code
-     * @param errorContext
-     */
-    public BaseException(ErrorDetailEnum code, ErrorContext errorContext) {
-        this(code);
-        this.errorContext = errorContext;
     }
 
     /**
@@ -64,31 +51,6 @@ public class BaseException extends RuntimeException {
     }
 
     /**
-     * 创建一个<code>BaseException</code>
-     *
-     * @param code         错误码
-     * @param errorContext 错误上下文
-     * @param errorMessage 错误码
-     */
-    public BaseException(ErrorDetailEnum code, ErrorContext errorContext, String errorMessage) {
-        this(code, errorMessage);
-        this.errorContext = errorContext;
-    }
-
-    /**
-     * 创建一个<code>BaseException</code>
-     *
-     * @param code         错误码
-     * @param errorContext 错误上下文
-     * @param errorMessage 错误描述格式
-     * @param params 错误描述参数
-     */
-    public BaseException(ErrorDetailEnum code, ErrorContext errorContext, String errorMessage,
-                          Object... params) {
-        this(code, errorContext, format(errorMessage, params));
-    }
-
-    /**
      * 创建一个<code>TradeException</code>
      * 
      * @param code 错误码
@@ -97,18 +59,6 @@ public class BaseException extends RuntimeException {
     public BaseException(ErrorDetailEnum code, Throwable cause) {
         super(code.getDescription(), cause);
         this.code = code;
-    }
-
-    /**
-     * 创建一个<code>BaseException</code>
-     *
-     * @param code         错误码
-     * @param errorContext 错误上下文
-     * @param cause        异常
-     */
-    public BaseException(ErrorDetailEnum code, ErrorContext errorContext, Throwable cause) {
-        this(code, cause);
-        this.errorContext = errorContext;
     }
 
     /**
@@ -169,15 +119,6 @@ public class BaseException extends RuntimeException {
     }
 
     /**
-     * Getter method for property <tt>errorContext</tt>.
-     * 
-     * @return property value of errorContext
-     */
-    public ErrorContext getErrorContext() {
-        return errorContext;
-    }
-
-    /**
      * 
      * @return String
      */
@@ -199,19 +140,4 @@ public class BaseException extends RuntimeException {
         return null;
     }
 
-    /**
-     * 获取被调用系统的错误码，若不存在返回空字符串
-     * 
-     * @return
-     */
-    public String getTargetSysErrorCode() {
-
-        String code = StringUtil.EMPTY_STRING;
-
-        if (errorContext != null) {
-            code = errorContext.fetchCurrentErrorCode();
-        }
-
-        return code;
-    }
 }

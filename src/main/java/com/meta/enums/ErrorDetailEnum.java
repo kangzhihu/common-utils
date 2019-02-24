@@ -1,5 +1,7 @@
-package com.meta.enum;
+package com.meta.enums;
+
 import com.meta.error.ErrorLevels;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 错误明细码枚举
@@ -168,10 +170,10 @@ public enum ErrorDetailEnum {
 
         String globalScenarioCode = errorCode.substring(5, 9);
         String systemScenarioCode = errorCode.substring(9, 11);
-        if (!ErrorScenarioEnum.GLOBAL_SCENARIO_CODE.equals(globalScenarioCode)
+        /*if (!ErrorScenarioEnum.GLOBAL_SCENARIO_CODE.equals(globalScenarioCode)
             || !ErrorScenarioEnum.SYSTEM_SCENARIO_CODE.equals(systemScenarioCode)) {
             return null;
-        }
+        }*/
         String code = errorCode.substring(13, 16);
         // 按照code查找枚举
         for (ErrorDetailEnum detailCode : values()) {
