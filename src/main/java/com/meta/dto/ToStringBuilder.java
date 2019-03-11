@@ -8,6 +8,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 com.meta.annotation.Mask;
 /**
 * 关键字屏蔽Builder，类ToString实现
+* 屏蔽位于Model层，主要服务于日志显示屏蔽
 */
 public class ToStringBuilder extends ReflectionToStringBuilder {
 
