@@ -3,6 +3,8 @@ package com.meta.common;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -777,14 +779,86 @@ public class DateUtils {
         String datetime = formatDate(date)+" "+time+":00";
         return addTime(parseTimestamp(datetime), TYPE_HOUR, -1).after(getMillTimestamp());
     }
-    public static boolean isValidDate(String fyrq) {
-        return DateUtils.parseDate(fyrq)!=null;
+
+
+    /*************************** 日期校验 start******************************/
+    public static boolean isValidShortDateFormat(String strDate) {
+        if (strDate.length() != YMD.length()) {
+            return false;
+        }
+
+        try {
+            Integer.parseInt(strDate); //---- 避免日期中输入非数字 ----
+        } catch (Exception NumberFormatException) {
+            return false;
+        }
+
+        DateFormat df = getNewDateFormat(YMD);
+
+        try {
+            df.parse(strDate);
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return true;
     }
 
-    public static <T extends Date> long getCurDateMills(T date){
-        if(date == null) return 0;
-        return date.getTime();
+    public static boolean isValidShortDateFormat(String strDate, String delimiter) {
+        String temp = strDate.replaceAll(delimiter, "");
+
+        return isValidShortDateFormat(temp);
     }
+
+    /**
+     * 判断表示时间的字符是否为符合yyyyMMddHHmmss格式
+     *
+     * @param strDate
+     * @return
+     */
+    public static boolean isValidLongDateFormat(String strDate) {
+        if (strDate.length() != YMDHMS.length()) {
+            return false;
+        }
+
+        try {
+            Long.parseLong(strDate); //---- 避免日期中输入非数字 ----
+        } catch (Exception NumberFormatException) {
+            return false;
+        }
+
+        DateFormat df = getNewDateFormat(YMDHMS);
+
+        try {
+            df.parse(strDate);
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static DateFormat getNewDateFormat(String pattern) {
+        DateFormat df = new SimpleDateFormat(pattern);
+
+        df.setLenient(false);
+        return df;
+    }
+
+    /**
+     * 判断表示时间的字符是否为符合yyyyMMddHHmmss格式
+     *
+     * @param strDate
+     * @param delimiter
+     * @return
+     */
+    public static boolean isValidLongDateFormat(String strDate, String delimiter) {
+        String temp = strDate.replaceAll(delimiter, "");
+
+        return isValidLongDateFormat(temp);
+    }
+
+    /*************************** 日期校验 end******************************/
 
     /**
      *  eg.  1997/01/02 22:03:00,return 1997/01/02 00:00:00.0
