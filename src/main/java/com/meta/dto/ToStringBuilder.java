@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-
+com.meta.annotation.Mask;
 /**
 * 关键字屏蔽Builder，类ToString实现
 */
