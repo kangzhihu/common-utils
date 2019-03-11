@@ -13,6 +13,7 @@ import java.util.List;
  * Description:<br/>
  * &nbsp;&nbsp;&nbsp;&nbsp;ToString类，包装toString()方法<br/><br/>
  * 若需要定制toString()则继承本类
+ * 主要服务于Vo层或者Model层日志显示
  */
 public abstract class ToString implements Serializable {
     private static final long serialVersionUID = -7861822564831477896L;
