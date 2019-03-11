@@ -493,6 +493,56 @@ public class DateUtils {
         return DateUtils.format(new Date());
     }
 
+
+    /**
+     * 判断两个时间是否同一天
+     *
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static boolean isSameDay(Date date1, Date date2) {
+        if(date1==null || date2 == null){
+            return false;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date1);
+        int year1 = calendar.get(Calendar.YEAR);
+        int day1 = calendar.get(Calendar.DAY_OF_YEAR);
+
+        calendar.setTime(date2);
+        int year2 = calendar.get(Calendar.YEAR);
+        int day2 = calendar.get(Calendar.DAY_OF_YEAR);
+
+        if ((year1 == year2) && (day1 == day2)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断两个时间是否同一个月
+     *
+     * @param date1
+     * @param Date2
+     * @return
+     */
+    public static boolean isSameMonth(Date date1, Date Date2) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date1);
+        int year1 = calendar.get(Calendar.YEAR);
+        int month1 = calendar.get(Calendar.MONTH);
+
+        calendar.setTime(Date2);
+        int year2 = calendar.get(Calendar.YEAR);
+        int month2 = calendar.get(Calendar.MONTH);
+
+        if ((year1 == year2) && (month1 == month2)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 是否晚于当前日期
      * @param date
@@ -793,7 +843,7 @@ public class DateUtils {
             return false;
         }
 
-        DateFormat df = getNewDateFormat(YMD);
+        DateFormat df = getDateFormatWithLenient(YMD);
 
         try {
             df.parse(strDate);
@@ -827,7 +877,7 @@ public class DateUtils {
             return false;
         }
 
-        DateFormat df = getNewDateFormat(YMDHMS);
+        DateFormat df = getDateFormatWithLenient(YMDHMS);
 
         try {
             df.parse(strDate);
@@ -838,7 +888,12 @@ public class DateUtils {
         return true;
     }
 
-    private static DateFormat getNewDateFormat(String pattern) {
+    /**
+     * 获取严格匹配日期处理器
+     * @param pattern
+     * @return
+     */
+    private static DateFormat getDateFormatWithLenient(String pattern) {
         DateFormat df = new SimpleDateFormat(pattern);
 
         df.setLenient(false);
