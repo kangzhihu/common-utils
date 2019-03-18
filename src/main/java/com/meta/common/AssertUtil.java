@@ -9,7 +9,7 @@ import java.util.Collection;
 
 /**
  * 断言工具类
- * 
+ * 断言的值若不为期待的值，则抛异常
  */
 public class AssertUtil {
 
