@@ -14,8 +14,33 @@ import static java.lang.System.currentTimeMillis;
  * Created by zhihu.kang<br/>
  * Time: 2016/12/28 22:05<br/>
  * Email:kangzhihu@163.com<br/>
- * Descriptions:<br/>
+ * Descriptions:   
+ * DateFormat 和 SimpleDateFormat 类不都是线程安全的。在多线程下一般都使用局部变量来出来。
+ * 但是在高并发场景下，创建SimpleDateFormat对象的实例需要耗费很大的代价，所以不推荐大量使用。<br/>
+ * 若要使用jdk，则可以使用下面方法来处理<br/>
+ *<pre>
+ * {@code
+ *  private static ThreadLocal<DateFormat> threadLocal = new new ThreadLocal<>() {
+ *
+ *     @Override
+ *     protected DataFormat initialValue() {
+ *     return new SimpleDateFormat("yyyy-MM-dd");
+ *     }
+ * };
+ * }
+ *  </pre>
+ *  
+ * 1.8版本之前，推荐使用第三方日期处理类：
+ *<pre>
+ * {@code
+ * <dependency>
+ *  <groupId>joda-time</groupId>
+ *  <artifactId>joda-time</artifactId>
+ *  <version>2.10.1</version>
+ * </dependency>
+ * </pre>
  */
+@Deprecated
 public class DateUtils {
 
     public static final DateUtils instance = new DateUtils();
