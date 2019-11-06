@@ -1,6 +1,6 @@
 package com.meta.db;
 
-import com.alibaba.common.lang.Paginator;
+import com.meta.db.Paginator;
 
 import java.util.ArrayList;
 import java.util.Collection;
